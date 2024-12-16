@@ -22,9 +22,7 @@ const BurgerIngredients = ({data}) => {
         const filteredFillingsArray = data?.filter(obj => obj.type === 'main');
         setFillings(filteredFillingsArray);
 
-    }, [data])
-
-    console.log(breads)
+    }, [data]);
 
     return (
         <div className={classNames(styles.burgerContainer, 'pt-10 pr-10')}>
