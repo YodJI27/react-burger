@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: space-between;
     max-width: 1280px;
+    height: 5vh;
 }
 
 .buttonHeader {

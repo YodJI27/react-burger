@@ -13,13 +13,13 @@ const AppHeader = () => {
                 </button>
                 <button className={classNames(styles.buttonHeader, 'pl-5 pr-5 pb-4 pt-4')}>
                     <ListIcon type="secondary" />
-                    <p className="text text_type_main-default ml-2" style={{color: '#8585AD'}}>Лента заказов</p>
+                    <p className="text text_type_main-default ml-2 text_color_inactive">Лента заказов</p>
                 </button>
             </div>
             <Logo />
             <button className={classNames(styles.buttonHeader, 'pl-5 pr-5 pb-4 pt-4')}>
                 <ProfileIcon type="secondary" />
-                <p className="text text_type_main-default ml-2" style={{color: '#8585AD'}}>Личный кабинет</p>
+                <p className="text text_type_main-default ml-2 text_color_inactive">Личный кабинет</p>
             </button>
         </nav>
     )

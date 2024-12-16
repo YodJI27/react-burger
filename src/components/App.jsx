@@ -4,6 +4,7 @@ import data from '../../utils/data';
 import BurgerConstructor from './burgerConstructor/BurgerConstructor.jsx';
 import BurgerIngredients from './burgerIngredients/BurgerIngredients.jsx';
 import styles from "./App.module.css";
+import classNames from 'classnames';
 
 function App() {
 
@@ -14,12 +15,8 @@ function App() {
       </header>
       <main className={styles.main}>
         <section className={styles.mainContent}>
-          <section style={{width: '50%'}}>
             <BurgerIngredients data={data} />
-          </section>
-          <section style={{width: '50%'}}>
             <BurgerConstructor />
-          </section>
         </section>
       </main>
     </>

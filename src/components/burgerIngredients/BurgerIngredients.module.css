@@ -3,9 +3,8 @@
 .burgerContainer {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: calc(92vh - 40px);
 }
-
 
 .buttonContainer {
     display: flex;
@@ -13,11 +12,25 @@
     align-items: center;
 }
 
-
 .listContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
     overflow: auto;
-    height: 50px;
-    flex-grow: 1;
+    height: 100%;
+    scrollbar-width: thin;
+}
+
+
+.listRow {
     display: flex;
     flex-direction: column;
+}
+
+.listCard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    row-gap: 32px;
+    column-gap: 24px;
 }
