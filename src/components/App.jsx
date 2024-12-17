@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import AppHeader from './appHeader/AppHeader';
+import AppHeader from './appHeader/AppHeader.jsx';
 import data from '../../utils/data';
 import BurgerConstructor from './burgerConstructor/BurgerConstructor.jsx';
 import BurgerIngredients from './burgerIngredients/BurgerIngredients.jsx';
@@ -10,9 +10,7 @@ function App() {
 
   return (
     <>
-      <header className={styles.header}>
-        <AppHeader />
-      </header>
+      <AppHeader />
       <main className={styles.main}>
         <section className={classNames(styles.mainContent)}>
             {data && <BurgerIngredients data={data} />}

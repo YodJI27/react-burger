@@ -4,8 +4,17 @@ import img from '@ya.praktikum/react-developer-burger-ui-components/dist/images/
 import styles from "./BurgerConstructor.module.css"
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { ingredientPropTypes } from "../../../utils/IngredientType";
 
 const BurgerConstructor = ({data}) => {
+
+    const [burgerConstruct, setBurgerConstruct] = useState([]);
+
+    useEffect(() => {
+        const filteredConstructor = data?.filter(obj => obj.type != 'bun')
+        setBurgerConstruct(filteredConstructor)
+    }, [data])
 
     return (
         <section className={classNames(styles.burgerContainer, 'pt-25 pl-4 pr-4 pb-10')}>
@@ -19,7 +28,7 @@ const BurgerConstructor = ({data}) => {
                 />
             </div>
             <div className={classNames(styles.listIngredients, 'pt-4 custom_scroll')}>
-                {data?.map((item) => (
+                {burgerConstruct?.map((item) => (
                     <div key={item?._id} className={classNames(styles.ingredientsCard, 'pb-4')}>
                         <DragIcon type="primary" className="pr-2" />
                         <ConstructorElement
@@ -53,20 +62,7 @@ const BurgerConstructor = ({data}) => {
 }
 
 BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(
-        PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            image: PropTypes.string.isRequired,
-            image_large: PropTypes.string,
-            image_mobile: PropTypes.string,
-            price: PropTypes.number.isRequired,
-            name: PropTypes.string.isRequired,
-            calories: PropTypes.number.isRequired,
-            carbohydrates: PropTypes.number.isRequired,
-            proteins: PropTypes.number.isRequired,
-            fat: PropTypes.number.isRequired
-        })
-    )
+    data: PropTypes.arrayOf(ingredientPropTypes).isRequired
 }
 
 

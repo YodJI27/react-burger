@@ -5,8 +5,9 @@ import classNames from 'classnames';
 
 const AppHeader = () => {
     return (
-        <nav className={classNames(styles.appContainer, 'pt-4 pb-4')}>
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <header className={styles.header}>
+          <nav className={classNames(styles.appContainer, 'pt-4 pb-4')}>
+            <div className={styles.navContainer}>
                 <button className={classNames(styles.buttonHeader, 'pl-1 pr-5 pb-4 pt-4')}>
                     <BurgerIcon type="primary" />
                     <p className="text text_type_main-default ml-2">Конструктор</p>
@@ -21,7 +22,8 @@ const AppHeader = () => {
                 <ProfileIcon type="secondary" />
                 <p className="text text_type_main-default ml-2 text_color_inactive">Личный кабинет</p>
             </button>
-        </nav>
+          </nav>
+        </header>
     )
 }
 

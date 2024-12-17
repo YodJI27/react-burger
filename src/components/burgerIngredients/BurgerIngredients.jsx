@@ -4,6 +4,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useRef, useState } from "react";
 import BurgerIngredientsCard from "../burgerCard/BurgerIngredientsCard";
 import PropTypes from "prop-types";
+import { ingredientPropTypes } from "../../../utils/IngredientType";
 
 const BurgerIngredients = ({data}) => {
 
@@ -47,9 +48,9 @@ const BurgerIngredients = ({data}) => {
                 <div className={styles.listRow}>
                     <p ref={breadsRef} className="text text_type_main-medium">Булки</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
-                        {breads?.map((item) => (
-                            <div key={item._id}>
-                                <BurgerIngredientsCard {...item} />
+                        {breads?.map((ingredient) => (
+                            <div key={ingredient._id}>
+                                <BurgerIngredientsCard ingredient={ingredient} />
                             </div>
                         ))}
                     </div>
@@ -57,9 +58,9 @@ const BurgerIngredients = ({data}) => {
                 <div className={styles.listRow}>
                     <p ref={saucesRef} className="text text_type_main-medium">Соусы</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
-                        {sauces?.map((item) => (
-                            <div key={item._id}>
-                                <BurgerIngredientsCard {...item} />
+                        {sauces?.map((ingredient) => (
+                            <div key={ingredient._id}>
+                                <BurgerIngredientsCard ingredient={ingredient} />
                             </div>
                         ))}
                     </div>
@@ -67,9 +68,9 @@ const BurgerIngredients = ({data}) => {
                 <div className={styles.listRow}>
                     <p ref={fillingsRef} className="text text_type_main-medium">Начинки</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
-                        {fillings?.map((item) => (
-                            <div key={item._id}>
-                                <BurgerIngredientsCard {...item} />
+                        {fillings?.map((ingredient) => (
+                            <div key={ingredient._id}>
+                                <BurgerIngredientsCard ingredient={ingredient} />
                             </div>
                         ))}
                     </div>
@@ -80,20 +81,7 @@ const BurgerIngredients = ({data}) => {
 };
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(
-        PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            image: PropTypes.string.isRequired,
-            image_large: PropTypes.string,
-            image_mobile: PropTypes.string,
-            price: PropTypes.number.isRequired,
-            name: PropTypes.string.isRequired,
-            calories: PropTypes.number.isRequired,
-            carbohydrates: PropTypes.number.isRequired,
-            proteins: PropTypes.number.isRequired,
-            fat: PropTypes.number.isRequired
-        })
-    )
+    data: PropTypes.arrayOf(ingredientPropTypes).isRequired
 }
 
 
