@@ -18,7 +18,7 @@ const BurgerConstructor = ({data}) => {
                     thumbnail={img}
                 />
             </div>
-            <div className={classNames(styles.listIngredients, 'pt-4')}>
+            <div className={classNames(styles.listIngredients, 'pt-4 custom_scroll')}>
                 {data?.map((item) => (
                     <div key={item?._id} className={classNames(styles.ingredientsCard, 'pb-4')}>
                         <DragIcon type="primary" className="pr-2" />

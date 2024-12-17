@@ -43,7 +43,7 @@ const BurgerIngredients = ({data}) => {
                 <Tab value='sauces' active={current === 'sauces'} onClick={() => {setCurrent('sauces'), scrollToSections(saucesRef)}}>Соусы</Tab>
                 <Tab value='fillings' active={current === 'fillings'} onClick={() => {setCurrent('fillings'), scrollToSections(fillingsRef)}}>Начинки</Tab>
             </nav>
-            <div className={classNames(styles.listContainer, 'pt-10')}>
+            <div className={classNames(styles.listContainer, 'pt-10 custom_scroll')}>
                 <div className={styles.listRow}>
                     <p ref={breadsRef} className="text text_type_main-medium">Булки</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
