@@ -7,7 +7,7 @@ const AppHeader = () => {
     return (
         <nav className={classNames(styles.appContainer, 'pt-4 pb-4')}>
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                <button className={classNames(styles.buttonHeader, 'pl-5 pr-5 pb-4 pt-4')}>
+                <button className={classNames(styles.buttonHeader, 'pl-1 pr-5 pb-4 pt-4')}>
                     <BurgerIcon type="primary" />
                     <p className="text text_type_main-default ml-2">Конструктор</p>
                 </button>
@@ -16,7 +16,7 @@ const AppHeader = () => {
                     <p className="text text_type_main-default ml-2 text_color_inactive">Лента заказов</p>
                 </button>
             </div>
-            <Logo />
+            <div className='mr-30'><Logo /></div>
             <button className={classNames(styles.buttonHeader, 'pl-5 pr-5 pb-4 pt-4')}>
                 <ProfileIcon type="secondary" />
                 <p className="text text_type_main-default ml-2 text_color_inactive">Личный кабинет</p>

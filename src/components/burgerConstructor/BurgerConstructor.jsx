@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 const BurgerConstructor = ({data}) => {
 
     return (
-        <div className={classNames(styles.burgerContainer, 'pt-25 pl-4 pr-4 pb-10')}>
+        <section className={classNames(styles.burgerContainer, 'pt-25 pl-4 pr-4 pb-10')}>
             <div className="pl-8">
                 <ConstructorElement
                     type="top"
@@ -48,7 +48,7 @@ const BurgerConstructor = ({data}) => {
                     Оформить заказ
                 </Button>
             </div>
-        </div>
+        </section>
     )
 }
 
