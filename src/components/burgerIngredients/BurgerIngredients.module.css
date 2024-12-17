@@ -3,7 +3,7 @@
 .burgerContainer {
     display: flex;
     flex-direction: column;
-    height: calc(92vh - 40px);
+    height: calc(92vh - 80px);
 }
 
 .buttonContainer {

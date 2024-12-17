@@ -1,10 +1,10 @@
-import styles from './BurgerCard.module.css';
+import styles from './BurgerIngredientsCard.module.css';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 
-const BurgerCard = (props) => {
+const BurgerIngredientsCard = (props) => {
 
     return (
         <div className={styles.cardBurger}>
@@ -19,17 +19,17 @@ const BurgerCard = (props) => {
     )
 }
 
-BurgerCard.propTypes = {
-    id: PropTypes.string,
-    image: PropTypes.string,
+BurgerIngredientsCard.propTypes = {
+    _id: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
     image_large: PropTypes.string,
     image_mobile: PropTypes.string,
-    price: PropTypes.number,
-    name: PropTypes.string,
-    calories: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    proteins: PropTypes.number,
-    fat: PropTypes.number
+    price: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    calories: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired
 }
 
-export default BurgerCard;
+export default BurgerIngredientsCard;

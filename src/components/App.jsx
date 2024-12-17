@@ -14,9 +14,9 @@ function App() {
         <AppHeader />
       </header>
       <main className={styles.main}>
-        <section className={styles.mainContent}>
-            <BurgerIngredients data={data} />
-            <BurgerConstructor />
+        <section className={classNames(styles.mainContent)}>
+            {data && <BurgerIngredients data={data} />}
+            {data && <BurgerConstructor data={data}/>}
         </section>
       </main>
     </>
