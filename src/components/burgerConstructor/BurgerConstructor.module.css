@@ -1,0 +1,31 @@
+
+
+.burgerContainer {
+    display: flex;
+    flex-direction: column;
+    height: calc(92vh - 140px);
+}
+
+.listIngredients {
+    overflow: auto;
+    max-height: 100%;
+    scrollbar-width: thin;
+}
+
+.ingredientsCard {
+    display: flex;
+    align-items: center;
+}
+
+.buttonOrder {
+    display: flex;
+    justify-content: end;
+    flex-direction: row;
+    align-items: center;
+}
+
+.priceContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
