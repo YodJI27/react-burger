@@ -1,0 +1,23 @@
+
+
+.modalContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.structure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.blockStructure {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
