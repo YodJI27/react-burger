@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import AppHeader from './appHeader/AppHeader.jsx';
+import AppHeader from './AppHeader/AppHeader.jsx';
 import BurgerConstructor from './burgerConstructor/BurgerConstructor.jsx';
-import BurgerIngredients from './burgerIngredients/BurgerIngredients.jsx';
+import BurgerIngredients from './BurgerIngredients/BurgerIngredients.jsx';
 import styles from "./App.module.css";
 import classNames from 'classnames';
 
@@ -14,7 +14,13 @@ function App() {
 
   useEffect(() => {
     fetch(URL_FOR_INGREDIENTS)
-    .then(res => res.json())
+    .then(res => {
+      if(res.ok) {
+        console.log(res)
+        return res.json();
+      }
+      return Promise.reject(`Ошибка:`, res.status, res.statusText);
+    })
     .then((data) => {
       console.log('Данные получены успешно')
       setIngredientsData(data.data)

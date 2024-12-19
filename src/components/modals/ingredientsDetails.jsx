@@ -8,7 +8,7 @@ const IngredientDetails = ({data}) => {
     return (
         <div className={classNames(styles.modalContainer, 'pt-10 pb-2 pr-10 pl-10')}>
 
-            <img src={data.image_large} alt="ингридиент" />
+            <img src={data.image_large} alt={data.name} />
             <h2 className="text text_type_main-medium pb-8 pt-4">{data.name}</h2>
             
             <div className={styles.structure}>

@@ -9,7 +9,7 @@ const OrderDetails = () => {
             <h2 className="text text_type_digits-large pb-8">034536</h2>
             <p className="text text_type_main-medium pb-15">идентификатор заказа</p>
             <div className="pb-15">
-                <img src={image} alt="Иконка заказ принят" />
+                <img src={image} alt="Загадочная субстанция на фоне и белая галка принятия заказа в центре" />
             </div>
             <p className="text text_type_main-default pb-2">Ваш заказ начали готовить</p>
             <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитальной станции</p>

@@ -8,7 +8,7 @@ const BurgerIngredientsCard = ({ingredient}) => {
 
     return (
         <div className={styles.cardBurger}>
-            <img src={ingredient.image} alt="ингредиент" className='pr-4 pl-4'/>
+            <img src={ingredient.image} alt={ingredient.name} className='pr-4 pl-4'/>
             <div className={classNames(styles.price, 'pt-1 pb-1')}>
                 <p className="text text_type_main-medium pr-1">{ingredient.price}</p>
                 <CurrencyIcon type="primary"/>
