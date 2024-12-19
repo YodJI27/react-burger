@@ -1,20 +1,32 @@
 
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import img from '@ya.praktikum/react-developer-burger-ui-components/dist/images/img.png';
-import styles from "./BurgerConstructor.module.css"
+import styles from "./burgerConstructor.module.css"
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { ingredientPropTypes } from "../../../utils/IngredientType";
+import Modal from "../Modals/Modal";
+import OrderDetails from "../Modals/OrderDetails";
 
 const BurgerConstructor = ({data}) => {
 
     const [burgerConstruct, setBurgerConstruct] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
         const filteredConstructor = data?.filter(obj => obj.type != 'bun')
         setBurgerConstruct(filteredConstructor)
-    }, [data])
+    }, [data]);
+
+
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    }
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    }
 
     return (
         <section className={classNames(styles.burgerContainer, 'pt-25 pl-4 pr-4 pb-10')}>
@@ -53,10 +65,11 @@ const BurgerConstructor = ({data}) => {
                     <p className="text text_type_main-large pr-2">610</p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button htmlType="button" type="primary" size="large">
+                <Button htmlType="button" type="primary" size="large" onClick={handleOpenModal}>
                     Оформить заказ
                 </Button>
             </div>
+            {openModal && <Modal onClose={handleCloseModal}><OrderDetails /></Modal>}
         </section>
     )
 }
