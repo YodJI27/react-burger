@@ -6,7 +6,7 @@ import BurgerIngredientsCard from "../BurgerCard/BurgerIngredientsCard";
 import PropTypes from "prop-types";
 import { ingredientPropTypes } from "../../../utils/IngredientType";
 import Modal from "../Modals/Modal";
-import IngredientDetails from "../Modals/ingredientsDetails";
+import IngredientDetails from "../Modals/IngredientsDetails";
 
 const BurgerIngredients = ({data}) => {
 

@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { ingredientPropTypes } from "../../../utils/IngredientType";
 import Modal from "../Modals/Modal";
-import OrderDetails from "../Modals/orderDetails";
+import OrderDetails from "../Modals/OrderDetails";
 
 const BurgerConstructor = ({data}) => {
 
