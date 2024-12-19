@@ -2,11 +2,11 @@ import styles from "./burgerIngredients.module.css";
 import classNames from "classnames";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useRef, useState } from "react";
-import BurgerIngredientsCard from "../burgerCard/BurgerIngredientsCard";
+import BurgerIngredientsCard from "../BurgerCard/BurgerIngredientsCard";
 import PropTypes from "prop-types";
 import { ingredientPropTypes } from "../../../utils/IngredientType";
 import Modal from "../Modals/Modal";
-import IngredientDetails from "../modals/ingredientsDetails";
+import IngredientDetails from "../Modals/ingredientsDetails";
 
 const BurgerIngredients = ({data}) => {
 
