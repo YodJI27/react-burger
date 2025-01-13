@@ -8,17 +8,19 @@ import { useEffect, useState } from "react";
 import { ingredientPropTypes } from "../../../utils/IngredientType";
 import Modal from "../Modals/Modal";
 import OrderDetails from "../Modals/OrderDetails";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
+import { setBunIngredients, setConstructor } from "../services/constructor";
 
-const BurgerConstructor = ({data}) => {
+const BurgerConstructor = () => {
 
-    const [burgerConstruct, setBurgerConstruct] = useState([]);
     const [openModal, setOpenModal] = useState(false);
 
-    useEffect(() => {
-        const filteredConstructor = data?.filter(obj => obj.type != 'bun')
-        setBurgerConstruct(filteredConstructor)
-    }, [data]);
+    const { bun, constructor }  = useSelector(store => store.constructorSlice);
 
+    console.log(bun, constructor)
+
+    const dispatch = useDispatch();
 
     const handleOpenModal = () => {
         setOpenModal(true);
@@ -28,19 +30,33 @@ const BurgerConstructor = ({data}) => {
         setOpenModal(false);
     }
 
+    const [{isHover}, dropTarget] = useDrop({
+        accept: 'ingredient',
+        collect: monitor => ({
+            isHover: monitor.isOver(),
+        }),
+        drop(item) {
+            if(item.type === 'bun') {
+                dispatch(setBunIngredients(item))
+            } else {
+                dispatch(setConstructor(item))
+            }
+        }
+    });
+
     return (
-        <section className={classNames(styles.burgerContainer, 'pt-25 pl-4 pr-4 pb-10')}>
-            <div className="pl-8">
+        <section className={classNames(styles.burgerContainer, 'pt-25 pl-4 pr-4 pb-10')} ref={dropTarget}>
+            {bun ? <div className="pl-8">
                 <ConstructorElement
                     type="top"
                     isLocked={true}
-                    text="Краторная булка N-200i (верх)"
-                    price={200}
-                    thumbnail={img}
+                    text={bun.name}
+                    price={bun.price}
+                    thumbnail={bun.image}
                 />
-            </div>
+            </div> : <div>Добавьте булку</div>}
             <div className={classNames(styles.listIngredients, 'pt-4 custom_scroll')}>
-                {burgerConstruct?.map((item) => (
+                {constructor?.map((item) => (
                     <div key={item?._id} className={classNames(styles.ingredientsCard, 'pb-4')}>
                         <DragIcon type="primary" className="pr-2" />
                         <ConstructorElement
@@ -50,16 +66,17 @@ const BurgerConstructor = ({data}) => {
                         />
                     </div>
                 ))}
+                {constructor.length === 0 ? <p>Перетащите ингридиент</p> : null}
             </div>
-            <div className="pl-8">
+            {bun ? <div className="pl-8">
                 <ConstructorElement
-                    type="bottom"
+                    type="top"
                     isLocked={true}
-                    text="Краторная булка N-200i (низ)"
-                    price={200}
-                    thumbnail={img}
+                    text={bun.name}
+                    price={bun.price}
+                    thumbnail={bun.image}
                 />
-            </div>
+            </div> : <div>Добавьте булку</div>}
             <div className={classNames(styles.buttonOrder, 'pt-10 pr-5')}>
                 <div className={classNames(styles.priceContainer, 'pr-10')}>
                     <p className="text text_type_main-large pr-2">610</p>
@@ -72,10 +89,6 @@ const BurgerConstructor = ({data}) => {
             {openModal && <Modal onClose={handleCloseModal}><OrderDetails /></Modal>}
         </section>
     )
-}
-
-BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(ingredientPropTypes).isRequired
 }
 
 
