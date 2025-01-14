@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import AppHeader from './AppHeader/AppHeader.jsx';
 import BurgerConstructor from './burgerConstructor/BurgerConstructor.jsx';
-import BurgerIngredients from './BurgerIngredients/BurgerIngredients.jsx';
+import BurgerIngredients from './burgerIngredients/BurgerIngredients.jsx';
 import styles from "./App.module.css";
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
@@ -12,9 +12,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 const URL_FOR_INGREDIENTS = "https://norma.nomoreparties.space/api/ingredients";
 
 function App() {
-
-  const [ingredientsData, setIngredientsData] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,8 +26,8 @@ function App() {
     })
     .then((data) => {
       console.log('Данные получены успешно');
-      dispatch(setIngredients(data?.data))
-      setIngredientsData(data.data);
+      dispatch(setIngredients(data?.data));
+      setSuccess(true);
     })
     .catch((err) => {
       console.log('Ошибка: ', err);
@@ -42,8 +41,8 @@ function App() {
       <main className={styles.main}>
         <DndProvider backend={HTML5Backend}>
           <section className={classNames(styles.mainContent)}>
-              {<BurgerIngredients />}
-              {<BurgerConstructor />}
+              {success && <BurgerIngredients />}
+              {success && <BurgerConstructor />}
               {error && <div>Проблема с данными...</div>}
           </section>
         </DndProvider>

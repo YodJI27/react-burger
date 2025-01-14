@@ -7,7 +7,8 @@ import PropTypes from "prop-types";
 import { ingredientPropTypes } from "../../../utils/IngredientType";
 import Modal from "../Modals/Modal";
 import IngredientDetails from "../Modals/IngredientsDetails";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setIngredientsDetails } from "../services/ingredientDetails";
 
 const BurgerIngredients = () => {
 
@@ -20,6 +21,7 @@ const BurgerIngredients = () => {
     const [openModal, setOpenModal] = useState(false);
     const [dataModal, setDataModal] = useState(null);
     const blockRef = useRef(null);
+    const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState(1);
 
     const breadsRef = useRef(null);
@@ -71,8 +73,8 @@ const BurgerIngredients = () => {
     }, [ingredients]);
 
     const handleOpenModal = (ingredient) => {
+        dispatch(setIngredientsDetails(ingredient));
         setOpenModal(true);
-        setDataModal(ingredient);
     }
 
     const handleCloseModal = () => {
@@ -94,7 +96,7 @@ const BurgerIngredients = () => {
                     <p ref={breadsRef} className="nav_title text text_type_main-medium">Булки</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
                         {breads?.map((ingredient) => (
-                            <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} />
+                            <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} openModal={handleOpenModal} />
                         ))}
                     </div>
                 </div>
@@ -102,7 +104,7 @@ const BurgerIngredients = () => {
                     <p ref={saucesRef} className="nav_title text text_type_main-medium">Соусы</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
                         {sauces?.map((ingredient) => (
-                            <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} />
+                            <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} openModal={handleOpenModal}/>
                         ))}
                     </div>
                 </div>
@@ -110,19 +112,15 @@ const BurgerIngredients = () => {
                     <p ref={fillingsRef} className="nav_title text text_type_main-medium">Начинки</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
                         {fillings?.map((ingredient) => (
-                            <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} />
+                            <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} openModal={handleOpenModal}/>
                         ))}
                     </div>
                 </div>
             </div>
-            {openModal && <Modal title='Детали ингредиента' onClose={handleCloseModal}><IngredientDetails data={dataModal} /></Modal>}
+            {openModal && <Modal title='Детали ингредиента' onClose={handleCloseModal}><IngredientDetails /></Modal>}
         </div>
     )
 };
-
-// BurgerIngredients.propTypes = {
-//     data: PropTypes.arrayOf(ingredientPropTypes).isRequired
-// }
 
 
 export default BurgerIngredients;
