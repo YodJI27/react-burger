@@ -4,12 +4,9 @@ import classNames from 'classnames';
 import { ingredientPropTypes } from '../../../utils/IngredientType';
 import { useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIngredientsDetails } from '../services/ingredientDetails';
 
 
 const BurgerIngredientsCard = ({ingredient, openModal}) => {
-
-    const dispatch = useDispatch();
 
     const [, dragRef] = useDrag({
         type: 'ingredient',

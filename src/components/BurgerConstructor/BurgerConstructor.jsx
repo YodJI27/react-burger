@@ -1,20 +1,15 @@
 
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import img from '@ya.praktikum/react-developer-burger-ui-components/dist/images/img.png';
 import styles from "./burgerConstructor.module.css"
 import classNames from "classnames";
-import PropTypes from "prop-types";
-import { useCallback, useEffect, useState } from "react";
-import { ingredientPropTypes } from "../../../utils/IngredientType";
+import { useCallback, useState } from "react";
 import Modal from "../Modals/Modal";
 import OrderDetails from "../Modals/OrderDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-import { setBunIngredients, setConstructor, setDeleteIngredient, setDragConstructor } from "../services/constructor";
-import { setOrder } from "../services/order";
+import { setBunIngredients, setConstructor, setDragConstructor } from "../services/constructor";
 import BurgerConstructorSliceCard from "../BurgerConstructorSliceCard/BurgerConstructorSliceCard";
-
-const URL_FOR_ORDER = 'https://norma.nomoreparties.space/api/orders';
+import { createOrder } from "../services/order";
 
 const BurgerConstructor = () => {
 
@@ -30,27 +25,10 @@ const BurgerConstructor = () => {
 
         const checkIdIng = constructor?.map(item => item._id);
 
-        fetch(URL_FOR_ORDER, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({ingredients: [bun._id, ...checkIdIng]})
-        })
-        .then(res => {
-            console.log(res)
-            if(res.ok) {
-                return res.json();
-            }
-            return Promise.reject(`Ошибка:`, res.status, res.statusText);
-        })
-        .then((data) => {
-            dispatch(setOrder(data.order.number))
-            setOpenModal(true);
-        })
-        .catch((err) => {
-            console.log('Ошибка: ', err);
-        })
+        dispatch(createOrder([bun._id, ...checkIdIng]));
+
+        setOpenModal(true);
+
     }
 
     const handleCloseModal = () => {

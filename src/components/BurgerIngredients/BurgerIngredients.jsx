@@ -2,9 +2,7 @@ import styles from "./burgerIngredients.module.css";
 import classNames from "classnames";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useRef, useState } from "react";
-import BurgerIngredientsCard from "../BurgerCard/BurgerIngredientsCard";
-import PropTypes from "prop-types";
-import { ingredientPropTypes } from "../../../utils/IngredientType";
+import BurgerIngredientsCard from "../burgerCard/BurgerIngredientsCard";
 import Modal from "../Modals/Modal";
 import IngredientDetails from "../Modals/IngredientsDetails";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +20,7 @@ const BurgerIngredients = () => {
     const [dataModal, setDataModal] = useState(null);
     const blockRef = useRef(null);
     const dispatch = useDispatch();
-    const [activeTab, setActiveTab] = useState(1);
+    const [activeTab, setActiveTab] = useState('breads');
 
     const breadsRef = useRef(null);
     const saucesRef = useRef(null);
@@ -33,11 +31,15 @@ const BurgerIngredients = () => {
         setCurrent(null)
 
         const scrollTop = e.srcElement.scrollTop;
-        let checker = 1;
+        let checker = 'breads';
 
-        if(scrollTop > breadsRef.current.getBoundingClientRect().y) checker = 1;
-        if(scrollTop > saucesRef.current.getBoundingClientRect().y) checker = 2;
-        if(scrollTop > fillingsRef.current.getBoundingClientRect().y) checker = 3;
+        const breadsPosition = breadsRef.current.getBoundingClientRect().y;
+        const saucesPosition = saucesRef.current.getBoundingClientRect().y;
+        const fillingsPosition = fillingsRef.current.getBoundingClientRect().y;
+
+        if(scrollTop > breadsPosition) checker = 'breads';
+        if(scrollTop > saucesPosition) checker = 'sauces';
+        if(scrollTop > fillingsPosition) checker = 'fillings';
 
         setActiveTab(checker)
     }
@@ -87,9 +89,9 @@ const BurgerIngredients = () => {
         <div className={classNames(styles.burgerContainer, 'pt-10 pb-10')}>
             <h1 className="text text_type_main-large pb-5">Соберите бургер</h1>
             <nav className={styles.buttonContainer}>
-                <Tab value='breads' active={activeTab === 1 || current == 'breads'} onClick={() => {setCurrent('breads'), scrollToSections(breadsRef)}}>Булки</Tab>
-                <Tab value='sauces' active={activeTab === 2 || current == 'sauces'} onClick={() => {setCurrent('sauces'), scrollToSections(saucesRef)}}>Соусы</Tab>
-                <Tab value='fillings' active={activeTab === 3 || current == 'fillings'} onClick={() => {setCurrent('fillings'), scrollToSections(fillingsRef)}}>Начинки</Tab>
+                <Tab value='breads' active={activeTab == 'breads' || current == 'breads'} onClick={() => {setCurrent('breads'), scrollToSections(breadsRef)}}>Булки</Tab>
+                <Tab value='sauces' active={activeTab == 'sauces' || current == 'sauces'} onClick={() => {setCurrent('sauces'), scrollToSections(saucesRef)}}>Соусы</Tab>
+                <Tab value='fillings' active={activeTab ==  'fillings' || current == 'fillings'} onClick={() => {setCurrent('fillings'), scrollToSections(fillingsRef)}}>Начинки</Tab>
             </nav>
             <div className={classNames(styles.listContainer, 'pt-10 custom_scroll')} ref={blockRef}>
                 <div className={styles.listRow}>
