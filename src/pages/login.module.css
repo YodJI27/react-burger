@@ -1,0 +1,22 @@
+
+
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    height: 92vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
