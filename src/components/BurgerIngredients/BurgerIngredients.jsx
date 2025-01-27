@@ -2,13 +2,15 @@ import styles from "./burgerIngredients.module.css";
 import classNames from "classnames";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useRef, useState } from "react";
-import BurgerIngredientsCard from "../BurgerCard/BurgerIngredientsCard";
-import PropTypes from "prop-types";
-import { ingredientPropTypes } from "../../../utils/IngredientType";
+import BurgerIngredientsCard from "../burgerCard/BurgerIngredientsCard";
 import Modal from "../Modals/Modal";
 import IngredientDetails from "../Modals/IngredientsDetails";
+import { useDispatch, useSelector } from "react-redux";
+import { setIngredientsDetails } from "../services/ingredientDetails";
 
-const BurgerIngredients = ({data}) => {
+const BurgerIngredients = () => {
+
+    const ingredients = useSelector(store => store.ingredientsSlice.ingredients);
 
     const [current, setCurrent] = useState('breads');
     const [breads, setBreads] = useState([]);
@@ -16,12 +18,44 @@ const BurgerIngredients = ({data}) => {
     const [fillings, setFillings] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [dataModal, setDataModal] = useState(null);
+    const blockRef = useRef(null);
+    const dispatch = useDispatch();
+    const [activeTab, setActiveTab] = useState('breads');
 
     const breadsRef = useRef(null);
     const saucesRef = useRef(null);
     const fillingsRef = useRef(null);
 
+    const handleScrollBlock = (e) => {
+
+        setCurrent(null)
+
+        const scrollTop = e.srcElement.scrollTop;
+        let checker = 'breads';
+
+        const breadsPosition = breadsRef.current.getBoundingClientRect().y;
+        const saucesPosition = saucesRef.current.getBoundingClientRect().y;
+        const fillingsPosition = fillingsRef.current.getBoundingClientRect().y;
+
+        if(scrollTop > breadsPosition) checker = 'breads';
+        if(scrollTop > saucesPosition) checker = 'sauces';
+        if(scrollTop > fillingsPosition) checker = 'fillings';
+
+        setActiveTab(checker)
+    }
+
+    useEffect(() => {
+        const block = blockRef.current;
+
+        block.addEventListener('scroll', handleScrollBlock);
+
+        return () => {
+            block.removeEventListener('scroll', handleScrollBlock);
+        }
+    }, [])
+
     const scrollToSections = (ref) => {
+
         if(ref.current) {
             ref.current.scrollIntoView({behavior: 'smooth'});
         }
@@ -29,20 +63,20 @@ const BurgerIngredients = ({data}) => {
 
     useEffect(() => {
 
-        const filteredBreadsArray = data?.filter(obj => obj.type === 'bun');
+        const filteredBreadsArray = ingredients?.filter(obj => obj.type === 'bun');
         setBreads(filteredBreadsArray);
 
-        const filteredSaucesArray = data?.filter(obj => obj.type === 'sauce');
+        const filteredSaucesArray = ingredients?.filter(obj => obj.type === 'sauce');
         setSauces(filteredSaucesArray);
 
-        const filteredFillingsArray = data?.filter(obj => obj.type === 'main');
+        const filteredFillingsArray = ingredients?.filter(obj => obj.type === 'main');
         setFillings(filteredFillingsArray);
 
-    }, [data]);
+    }, [ingredients]);
 
     const handleOpenModal = (ingredient) => {
+        dispatch(setIngredientsDetails(ingredient));
         setOpenModal(true);
-        setDataModal(ingredient);
     }
 
     const handleCloseModal = () => {
@@ -55,50 +89,40 @@ const BurgerIngredients = ({data}) => {
         <div className={classNames(styles.burgerContainer, 'pt-10 pb-10')}>
             <h1 className="text text_type_main-large pb-5">Соберите бургер</h1>
             <nav className={styles.buttonContainer}>
-                <Tab value='breads' active={current === 'breads'} onClick={() => {setCurrent('breads'), scrollToSections(breadsRef)}}>Булки</Tab>
-                <Tab value='sauces' active={current === 'sauces'} onClick={() => {setCurrent('sauces'), scrollToSections(saucesRef)}}>Соусы</Tab>
-                <Tab value='fillings' active={current === 'fillings'} onClick={() => {setCurrent('fillings'), scrollToSections(fillingsRef)}}>Начинки</Tab>
+                <Tab value='breads' active={activeTab == 'breads' || current == 'breads'} onClick={() => {setCurrent('breads'), scrollToSections(breadsRef)}}>Булки</Tab>
+                <Tab value='sauces' active={activeTab == 'sauces' || current == 'sauces'} onClick={() => {setCurrent('sauces'), scrollToSections(saucesRef)}}>Соусы</Tab>
+                <Tab value='fillings' active={activeTab ==  'fillings' || current == 'fillings'} onClick={() => {setCurrent('fillings'), scrollToSections(fillingsRef)}}>Начинки</Tab>
             </nav>
-            <div className={classNames(styles.listContainer, 'pt-10 custom_scroll')}>
+            <div className={classNames(styles.listContainer, 'pt-10 custom_scroll')} ref={blockRef}>
                 <div className={styles.listRow}>
-                    <p ref={breadsRef} className="text text_type_main-medium">Булки</p>
+                    <p ref={breadsRef} className="nav_title text text_type_main-medium">Булки</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
                         {breads?.map((ingredient) => (
-                            <div key={ingredient._id} onClick={() => handleOpenModal(ingredient)}>
-                                <BurgerIngredientsCard ingredient={ingredient} />
-                            </div>
+                            <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} openModal={handleOpenModal} />
                         ))}
                     </div>
                 </div>
                 <div className={styles.listRow}>
-                    <p ref={saucesRef} className="text text_type_main-medium">Соусы</p>
+                    <p ref={saucesRef} className="nav_title text text_type_main-medium">Соусы</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
                         {sauces?.map((ingredient) => (
-                            <div key={ingredient._id} onClick={() => handleOpenModal(ingredient)}>
-                                <BurgerIngredientsCard ingredient={ingredient} />
-                            </div>
+                            <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} openModal={handleOpenModal}/>
                         ))}
                     </div>
                 </div>
                 <div className={styles.listRow}>
-                    <p ref={fillingsRef} className="text text_type_main-medium">Начинки</p>
+                    <p ref={fillingsRef} className="nav_title text text_type_main-medium">Начинки</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
                         {fillings?.map((ingredient) => (
-                            <div key={ingredient._id} onClick={() => handleOpenModal(ingredient)}>
-                                <BurgerIngredientsCard ingredient={ingredient} />
-                            </div>
+                            <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} openModal={handleOpenModal}/>
                         ))}
                     </div>
                 </div>
             </div>
-            {openModal && <Modal title='Детали ингредиента' onClose={handleCloseModal}><IngredientDetails data={dataModal} /></Modal>}
+            {openModal && <Modal title='Детали ингредиента' onClose={handleCloseModal}><IngredientDetails /></Modal>}
         </div>
     )
 };
-
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(ingredientPropTypes).isRequired
-}
 
 
 export default BurgerIngredients;
