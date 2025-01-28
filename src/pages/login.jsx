@@ -2,15 +2,37 @@ import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-de
 import styles from './login.module.css';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import { loginUser } from '../components/services/login-slice';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 
 
 const Login = () => {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const dispatch = useDispatch();
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        dispatch(loginUser({email: email, password: password}))
+    }
+
+    const handleChangeEmail = (event) => {
+        setEmail(event.target.value);
+    }
+
+    const handleChangePassword = (event) => {
+        setPassword(event.target.value);
+    }
+
     return (
         <div className={styles.loginContainer}>
-            <form className={styles.loginForm}>
+            <form className={styles.loginForm} onSubmit={handleSubmit}>
                 <h2 className="text text_type_main-medium pb-6">Вход</h2>
-                <EmailInput name='email' extraClass='pb-6'/>
-                <PasswordInput name='password' extraClass='pb-6' />
+                <EmailInput value={email} onChange={handleChangeEmail} name='email' extraClass='pb-6'/>
+                <PasswordInput value={password} onChange={handleChangePassword} name='password' extraClass='pb-6' />
                 <Button htmlType="submit" type="primary" size="large" extraClass="mb-20" disabled={false}>
                     Войти
                 </Button>

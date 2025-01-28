@@ -8,6 +8,12 @@
     width: 100%;
 }
 
+.navElement {
+    color: inherit; 
+    text-decoration: none; 
+    cursor: pointer;
+}
+
 .appContainer {
     width: 100%;
     display: flex;
