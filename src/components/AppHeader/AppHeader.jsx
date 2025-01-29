@@ -9,26 +9,33 @@ const AppHeader = () => {
         <header className={styles.header}>
           <nav className={classNames(styles.appContainer, 'pt-4 pb-4')}>
             <div className={styles.navContainer}>
-                <NavLink to="/" className={styles.navElement}>
+                <NavLink to={"/"}  className={styles.navElement}>
                     {({ isActive }) => (
-                        <button className={classNames(styles.buttonHeader, 'pl-1 pr-5 pb-4 pt-4')}>
+                        <div className={classNames(styles.buttonHeader, 'pl-1 pr-5 pb-4 pt-4')}>
                             <BurgerIcon type={isActive ? "primary" : "secondary"} />
                             <p className={`text text_type_main-default ml-2 ${isActive ? "" : "text_color_inactive"}`}>Конструктор</p>
-                        </button>
+                        </div>
                     )}
                 </NavLink>
-                <button className={classNames(styles.buttonHeader, 'pl-5 pr-5 pb-4 pt-4')}>
-                    <ListIcon type="secondary" />
-                    <p className="text text_type_main-default ml-2 text_color_inactive">Лента заказов</p>
-                </button>
+                
+                <NavLink to={"/"} className={styles.navElement}>
+                    {({ isActive }) => (
+                        <div className={classNames(styles.buttonHeader, 'pl-5 pr-5 pb-4 pt-4')}>
+                            <ListIcon type="secondary" />
+                            <p className="text text_type_main-default ml-2 text_color_inactive">Лента заказов</p>
+                        </div>
+                    )}
+                </NavLink>
             </div>
-            <div className='mr-30'><Logo /></div>
-            <NavLink to="/profile" className={styles.navElement}>
+            <Link to={'/'}>
+                <div className='mr-30'><Logo /></div>
+            </Link>
+            <NavLink to={'/profile'} className={styles.navElement}>
                 {({ isActive }) => (
-                    <button className={classNames(styles.buttonHeader, 'pl-5 pr-5 pb-4 pt-4')}>
+                    <div className={classNames(styles.buttonHeader, 'pl-5 pr-5 pb-4 pt-4')}>
                         <ProfileIcon type={isActive ? "primary" : "secondary"} />
                         <p className={`text text_type_main-default ml-2 ${isActive ? "" : "text_color_inactive"}`}>Личный кабинет</p>
-                    </button>
+                    </div>
                 )}
             </NavLink>
           </nav>

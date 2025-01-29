@@ -1,7 +1,7 @@
 import AppHeader from './AppHeader/AppHeader.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from './services/ingredients.js';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from '../pages/home.jsx';
 import Login from '../pages/login.jsx';
 import { useEffect } from 'react';
@@ -20,20 +20,18 @@ function App() {
 
 
   return (
-    <>
-      <Router>
-        <AppHeader />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />}/>
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />}/>
-          <Route path="/profile" element={<Profile />}/>
-          <Route path="/ingredients/:id" />
-        </Routes>
-      </Router>
-    </>
+    <div>
+      <AppHeader />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />}/>
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />}/>
+        <Route path="/profile" element={<Profile />}/>
+        <Route path="/ingredients/:id" />
+      </Routes>
+    </div>
   )
 }
 

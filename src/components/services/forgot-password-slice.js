@@ -32,16 +32,12 @@ const forgotPasswordSlice = createSlice({
     extraReducers: (builder) => {
         builder
         .addCase(forgotPasswordPost.pending, (state, action) => {
-            console.log(action)
             state.loading = false
         })
         .addCase(forgotPasswordPost.fulfilled, (state, action) => {
-            console.log(action)
-            state.message = action.payload.data;
             state.loading = true;
         })
         .addCase(forgotPasswordPost.rejected, (state, action) => {
-            console.log(action)
             state.error = true
         })
     }

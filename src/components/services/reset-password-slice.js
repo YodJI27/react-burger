@@ -30,16 +30,13 @@ const resetPasswordSlice = createSlice({
     extraReducers: (builder) => {
         builder
         .addCase(resetPasswordPost.pending, (state, action) => {
-            console.log(action)
             state.loading = false
         })
         .addCase(resetPasswordPost.fulfilled, (state, action) => {
             console.log(action)
-            state.message = action.payload.data;
             state.loading = true;
         })
         .addCase(resetPasswordPost.rejected, (state, action) => {
-            console.log(action)
             state.error = true
         })
     }

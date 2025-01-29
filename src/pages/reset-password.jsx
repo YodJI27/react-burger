@@ -1,9 +1,9 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './login.module.css';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resetPasswordPost } from "../components/services/reset-password-slice";
 
 
@@ -12,6 +12,7 @@ const ResetPassword = () => {
     const [newPassword, seNewPassword] = useState('');
     const [code, setCode] = useState('');
     const dispatch = useDispatch();
+    const {loading} = useSelector((store) => store.resetPasswordSlice);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -25,6 +26,11 @@ const ResetPassword = () => {
     const handleChangeCode = (event) => {
         setCode(event.target.value);
     }
+
+    if(loading) {
+        return <Navigate to="/login" />
+    }
+
 
     return (
         <div className={styles.loginContainer}>
