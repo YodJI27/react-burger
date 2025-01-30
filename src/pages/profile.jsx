@@ -8,18 +8,24 @@ import { useEffect, useState } from "react";
 import { authUser } from "../components/services/get-user-slice";
 import { refreshToken } from "../components/services/refresh-token-slice";
 import { patchUser } from "../components/services/patch-user-slice";
+import { useForm } from "../hooks/useForm";
 
 
 const Profile = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {name, email, message, loading} = useSelector((store) => store.getUserSlice);
-    const {access} = useSelector((store) => store.refreshTokenSlice);
-    const [nameUser, setNameUser] = useState('');
-    const [loginUser, setLoginUser] = useState('');
-    const [passwordUser, setPasswordUser] = useState('');
+    const {name, email, message, loading} = useSelector(store => store.getUserSlice);
+    const {access} = useSelector(store => store.refreshTokenSlice);
     const [isChange, setIsChange] = useState(false);
+    const {values, handleChange, setValues} = useForm({email: email, password: '', name: name});
+
+    useEffect(() => {
+        if(loading) {
+            setValues({ email: email, name: name, password: '' });
+        }
+    }, [loading]);
+
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
@@ -37,44 +43,23 @@ const Profile = () => {
         }
     }, [message]);
 
-    useEffect(() => {
-        setNameUser(name);
-        setLoginUser(email);
-    }, [name, email]);
 
     useEffect(() => {
-        if(name !== nameUser || email !== loginUser || passwordUser !== '') {
+        if(name !== values.name || email !== values.email || values.password !== '') {
             setIsChange(true)
         } else {
             setIsChange(false)
         }
-    }, [nameUser, passwordUser, loginUser])
+    }, [values.name, values.email, values.password])
 
-
-    const handleChangeName = (e) => {
-        setIsChange(true);
-        setNameUser(e.target.value)
-    }
-
-    const handleChangeEmail = (e) => {
-        setIsChange(true);
-        setLoginUser(e.target.value)
-    }
-
-    const handleChangePassword = (e) => {
-        setIsChange(true);
-        setPasswordUser(e.target.value)
-    }
 
     const handleCancel = () => {
-        setNameUser(name);
-        setPasswordUser('');
-        setLoginUser(email);
+        setValues({ email: email, password: '', name: name });
     }
 
     const handleSubmitUser = (e) => {
         e.preventDefault();
-        dispatch(patchUser({name: nameUser, email: loginUser, password: passwordUser}));
+        dispatch(patchUser(values));
         setIsChange(false);
     }
 
@@ -104,9 +89,9 @@ const Profile = () => {
                 </div>
                 <form className="pt-5 pl-20" onSubmit={handleSubmitUser}>
                     <div>
-                        <Input icon='EditIcon' value={loading ? nameUser : "Загрузка..."} onChange={handleChangeName} placeholder={"Имя"} extraClass="pb-6" />
-                        <EmailInput icon='EditIcon' value={loading ? loginUser : "Загрузка..."} onChange={handleChangeEmail} placeholder={"Логин"} extraClass="pb-6"/>
-                        <PasswordInput value={passwordUser} onChange={handleChangePassword} placeholder={"Пароль"}/>
+                        <Input icon='EditIcon' name={'name'} value={loading ? values.name : "Загрузка..."} onChange={handleChange} placeholder={"Имя"} extraClass="pb-6" />
+                        <EmailInput icon='EditIcon' name={'email'} value={loading ? values.email : "Загрузка..."} onChange={handleChange} placeholder={"Логин"} extraClass="pb-6"/>
+                        <PasswordInput value={values.password} name={'password'} onChange={handleChange} placeholder={"Пароль"}/>
                     </div>
                     {isChange &&
                         <div className='flex pt-20'>

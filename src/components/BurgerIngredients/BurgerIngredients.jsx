@@ -17,8 +17,6 @@ const BurgerIngredients = () => {
     const [breads, setBreads] = useState([]);
     const [sauces, setSauces] = useState([]);
     const [fillings, setFillings] = useState([]);
-    // const [openModal, setOpenModal] = useState(false);
-    const [dataModal, setDataModal] = useState(null);
     const blockRef = useRef(null);
     const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState('breads');
@@ -82,7 +80,6 @@ const BurgerIngredients = () => {
 
     const handleCloseModal = () => {
         dispatch(setOpenModalIngredients(false));
-        setDataModal(null);
     }
 
 

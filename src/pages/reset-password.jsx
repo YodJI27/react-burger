@@ -5,27 +5,21 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPasswordPost } from "../components/services/reset-password-slice";
+import { useForm } from "../hooks/useForm";
 
 
 const ResetPassword = () => {
 
-    const [newPassword, seNewPassword] = useState('');
-    const [code, setCode] = useState('');
+    const {values, handleChange} = useForm({password: '', token: ''});
     const dispatch = useDispatch();
     const {loading} = useSelector((store) => store.resetPasswordSlice);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(resetPasswordPost({password: newPassword, token: code}));
+        dispatch(resetPasswordPost(values));
     }
 
-    const handleChangePassword = (event) => {
-        seNewPassword(event.target.value);
-    }
-
-    const handleChangeCode = (event) => {
-        setCode(event.target.value);
-    }
+    console.log(values)
 
     if(loading) {
         return <Navigate to="/login" />
@@ -36,8 +30,8 @@ const ResetPassword = () => {
         <div className={styles.loginContainer}>
             <form className={styles.loginForm} onSubmit={handleSubmit}>
                 <h2 className="text text_type_main-medium pb-6">Восстановление пароля</h2>
-                <PasswordInput value={newPassword} onChange={handleChangePassword} extraClass='pb-6' placeholder="Введите новый пароль" />
-                <Input value={code} onChange={handleChangeCode} extraClass='pb-6' placeholder="Введите код из письма" />
+                <PasswordInput value={values.password} name="password" onChange={handleChange} extraClass='pb-6' placeholder="Введите новый пароль" />
+                <Input value={values.token} name="token" onChange={handleChange} extraClass='pb-6' placeholder="Введите код из письма" />
                 <Button htmlType="submit" type="primary" size="large" extraClass="mb-20" disabled={false}>
                     Сохранить
                 </Button>

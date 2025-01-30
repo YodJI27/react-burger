@@ -33,16 +33,14 @@ const registerUserSlice = createSlice({
     extraReducers: (builder) => {
         builder
         .addCase(registerUser.pending, (state, action) => {
-            console.log(action)
             state.loading = false
         })
         .addCase(registerUser.fulfilled, (state, action) => {
-            console.log(action)
             state.message = action.payload.data;
             state.loading = true;
+            state.error = false;
         })
         .addCase(registerUser.rejected, (state, action) => {
-            console.log(action)
             state.error = true
         })
     }

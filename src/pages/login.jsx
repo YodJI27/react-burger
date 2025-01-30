@@ -6,13 +6,12 @@ import { loginUser } from '../components/services/login-slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { checkUserAuth } from '../components/services/get-user-slice';
+import { useForm } from '../hooks/useForm';
 
 
 const Login = () => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const {userAccess} = useSelector((store) => store.loginUserSlice);
+    const {values, handleChange} = useForm({email: '', password: ''});
     const navigate = useNavigate();
     const checkAuthUser = checkUserAuth();
 
@@ -24,24 +23,16 @@ const Login = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(loginUser({email: email, password: password}));
+        dispatch(loginUser({email: values.email, password: values.password}));
         navigate('/');
-    }
-
-    const handleChangeEmail = (event) => {
-        setEmail(event.target.value);
-    }
-
-    const handleChangePassword = (event) => {
-        setPassword(event.target.value);
     }
 
     return (
         <div className={styles.loginContainer}>
             <form className={styles.loginForm} onSubmit={handleSubmit}>
                 <h2 className="text text_type_main-medium pb-6">Вход</h2>
-                <EmailInput value={email} onChange={handleChangeEmail} name='email' extraClass='pb-6'/>
-                <PasswordInput value={password} onChange={handleChangePassword} name='password' extraClass='pb-6' />
+                <EmailInput value={values.email} onChange={handleChange} name='email' extraClass='pb-6'/>
+                <PasswordInput value={values.password} onChange={handleChange} name='password' extraClass='pb-6' />
                 <Button htmlType="submit" type="primary" size="large" extraClass="mb-20" disabled={false}>
                     Войти
                 </Button>

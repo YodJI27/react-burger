@@ -5,21 +5,18 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { forgotPasswordPost } from "../components/services/forgot-password-slice";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../hooks/useForm";
 
 
 const ForgotPassword = () => {
 
-    const [email, setEmail] = useState("");
+    const {values, handleChange} = useForm({email: ''});
     const dispatch = useDispatch();
     const {loading} = useSelector((store) => store.forgotPasswordSlice);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(forgotPasswordPost({email: email}));
-    }
-
-    const handleChange = (event) => {
-        setEmail(event.target.value);
+        dispatch(forgotPasswordPost(values));
     }
 
     if(loading) {
@@ -30,7 +27,7 @@ const ForgotPassword = () => {
         <div className={styles.loginContainer}>
             <form className={styles.loginForm} onSubmit={handleSubmit}>
                 <h2 className="text text_type_main-medium pb-6">Восстановление пароля</h2>
-                <EmailInput value={email} onChange={handleChange} extraClass='pb-6' placeholder="Введите E-mail" />
+                <EmailInput value={values.email} name="email" onChange={handleChange} extraClass='pb-6' placeholder="Введите E-mail" />
                 <Button htmlType="submit" type="primary" size="large" extraClass="mb-20" disabled={false}>
                     Восстановить
                 </Button>
