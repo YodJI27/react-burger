@@ -34,10 +34,7 @@ const refreshTokenSlice = createSlice({
             const authToken = action.payload.accessToken.split(' ')[1];
             const refreshToken = action.payload.refreshToken;
 
-            console.log('refresh', authToken)
-
             if(authToken) {
-                console.log('токен изменен')
                 localStorage.setItem('accessToken', authToken);
             }
 

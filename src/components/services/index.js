@@ -1,7 +1,7 @@
 import {combineSlices, configureStore} from "@reduxjs/toolkit";
 import ingredientsSlice from './ingredients';
 import orderSlice from './order';
-import ingredientsDetailsSlice from './ingredientDetails';
+import ingredientsDetailsSlice from './ingredient-details';
 import constructorSlice from './constructor';
 import forgotPasswordSlice from './forgot-password-slice';
 import resetPasswordSlice from './reset-password-slice';

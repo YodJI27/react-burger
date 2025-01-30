@@ -2,7 +2,7 @@
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burgerConstructor.module.css"
 import classNames from "classnames";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Modal from "../Modals/Modal";
 import OrderDetails from "../Modals/OrderDetails";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,25 +10,33 @@ import { useDrop } from "react-dnd";
 import { setBunIngredients, setConstructor, setDragConstructor } from "../services/constructor";
 import BurgerConstructorSliceCard from "../BurgerConstructorSliceCard/BurgerConstructorSliceCard";
 import { createOrder } from "../services/order";
+import { checkUserAuth } from "../services/get-user-slice";
+import {useNavigate } from "react-router-dom";
+import { setPriceBunTotal, setPriceIngTotal } from "../services/ingredients";
 
 const BurgerConstructor = () => {
 
     const [openModal, setOpenModal] = useState(false);
-    const [priceIng, setPriceIng] = useState(0);
-    const [priceBun, setPriceBun] = useState(0);
+    const navigate = useNavigate();
 
     const { bun, constructor }  = useSelector(store => store.constructorSlice);
+    const {priceIngTotal, priceBunTotal} = useSelector(store => store.ingredientsSlice);
 
     const dispatch = useDispatch();
 
     const handleOpenModal = () => {
 
-        const checkIdIng = constructor?.map(item => item._id);
+        const checkAuthUser = checkUserAuth();
 
-        dispatch(createOrder([bun._id, ...checkIdIng]));
+        if(!checkAuthUser) {
+            navigate('/login');
+        } else {
+            const checkIdIng = constructor?.map(item => item._id);
 
-        setOpenModal(true);
-
+            dispatch(createOrder([bun._id, ...checkIdIng]));
+    
+            setOpenModal(true);
+        }
     }
 
     const handleCloseModal = () => {
@@ -43,10 +51,10 @@ const BurgerConstructor = () => {
         drop(item) {
             if(item.type === 'bun') {
                 dispatch(setBunIngredients(item));
-                setPriceBun(item.price * 2);
+                dispatch(setPriceBunTotal(item.price * 2));
             } else {
                 dispatch(setConstructor(item));
-                setPriceIng(priceIng + item.price);
+                dispatch(setPriceIngTotal(priceIngTotal + item.price));
             }
         }
     });
@@ -71,7 +79,7 @@ const BurgerConstructor = () => {
             </div> : <div className={classNames(styles.burger, borderHover)} style={{borderRadius: 'var(--top-constructor-item-border-radius)'}}>Добавьте булку</div>}
             <div className={classNames(styles.listIngredients, 'pt-4 custom_scroll')}>
                 {constructor?.map((item, index) => (
-                    <BurgerConstructorSliceCard key={index} item={item} indexIng={index} checkPrice={setPriceIng} priceIng={priceIng} moveCard={moveCard} />
+                    <BurgerConstructorSliceCard key={index} item={item} indexIng={index} moveCard={moveCard} />
                 ))}
                 {constructor.length === 0 ? <div className={classNames(styles.burger, borderHover)}>Добавьте ингридиент</div> : null}
             </div>
@@ -86,7 +94,7 @@ const BurgerConstructor = () => {
             </div> : <div className={classNames(styles.burger, borderHover)} style={{borderRadius: 'var(--bottom-constructor-item-border-radius)'}}>Добавьте булку</div>}
             <div className={classNames(styles.buttonOrder, 'pt-10 pr-5')}>
                 <div className={classNames(styles.priceContainer, 'pr-10')}>
-                    <p className="text text_type_main-large pr-2">{priceIng + priceBun}</p>
+                    <p className="text text_type_main-large pr-2">{priceBunTotal + priceIngTotal}</p>
                     <CurrencyIcon type="primary" />
                 </div>
                 <Button htmlType="button" type="primary" size="large" onClick={handleOpenModal}>

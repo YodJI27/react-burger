@@ -3,21 +3,23 @@ import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burg
 import styles from "../BurgerConstructor/burgerConstructor.module.css";
 import classNames from "classnames";
 import { setDeleteIngredient, setDragConstructor } from "../services/constructor";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { ingredientPropTypes } from "../../../utils/IngredientType";
 import PropTypes from "prop-types";
+import { setPriceIngTotal } from "../services/ingredients";
 
 
-const BurgerConstructorSliceCard = ({item, indexIng, checkPrice, priceIng, moveCard}) => {
+const BurgerConstructorSliceCard = ({item, indexIng, moveCard}) => {
 
     const dispatch = useDispatch();
     const ref = useRef(null);
+    const {priceIngTotal} = useSelector(store => store.ingredientsSlice);
 
     const handleDeleteIng = (element) => {
         dispatch(setDeleteIngredient(element))
-        checkPrice(priceIng - item.price)
+        dispatch(setPriceIngTotal(priceIngTotal - item.price));
     }
 
     const [{ handlerId }, drop] = useDrop({
@@ -96,7 +98,5 @@ export default BurgerConstructorSliceCard;
 BurgerConstructorSliceCard.propTypes = {
     item: ingredientPropTypes,
     indexIng: PropTypes.number.isRequired,
-    moveCard: PropTypes.func.isRequired,
-    checkPrice: PropTypes.func.isRequired,
-    priceIng: PropTypes.number.isRequired
+    moveCard: PropTypes.func.isRequired
 };

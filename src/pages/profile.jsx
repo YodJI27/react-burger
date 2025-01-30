@@ -22,6 +22,7 @@ const Profile = () => {
     const [isChange, setIsChange] = useState(false);
 
     const handleLogout = () => {
+        localStorage.removeItem('accessToken');
         dispatch(logoutUser());
         navigate('/login');
     }
@@ -77,15 +78,22 @@ const Profile = () => {
         setIsChange(false);
     }
 
+    const { pathname } = useLocation();
+    const isProfile = pathname === '/profile' ? true : false;
+
     return (
         <div className={classNames(styles.profileContainer, 'pt-30')}>
             <div className={styles.profileContent}>
                 <div className={classNames(styles.navContainer, 'pt-10')}>
                     <NavLink to="/profile" className={classNames(styles.navElement)}>
-                        <p className="text text_type_main-medium pb-8">Профиль</p>
+                        {({ isActive }) => (
+                            <p className={`text text_type_main-medium pb-8 ${isActive && isProfile ? '' : 'text_color_inactive'}`}>Профиль</p>
+                        )}
                     </NavLink>
                     <NavLink to="/profile/orders" className={classNames(styles.navElement)}>
-                        <p className="text text_type_main-medium pb-8 text_color_inactive">История заказов</p>
+                        {({ isActive }) => (
+                            <p className={`text text_type_main-medium pb-8 ${isActive ? '' : 'text_color_inactive'}`}>История заказов</p>
+                        )}
                     </NavLink>
                     <div>
                         <Button htmlType="button" type="secondary" size="large" extraClass={classNames(styles.logout)} onClick={handleLogout}>

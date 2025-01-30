@@ -1,24 +1,31 @@
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './login.module.css';
 import classNames from 'classnames';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { loginUser } from '../components/services/login-slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { checkUserAuth } from '../components/services/get-user-slice';
 
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const {access} = useSelector((store) => store.loginUserSlice);
+    const {userAccess} = useSelector((store) => store.loginUserSlice);
     const navigate = useNavigate();
+    const checkAuthUser = checkUserAuth();
+
+    if(checkAuthUser) {
+        return <Navigate to="/" />
+    }
 
     const dispatch = useDispatch();
 
     const handleSubmit = (event) => {
         event.preventDefault();
         dispatch(loginUser({email: email, password: password}));
+        navigate('/');
     }
 
     const handleChangeEmail = (event) => {

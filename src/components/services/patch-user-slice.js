@@ -5,8 +5,6 @@ const URL_FOR_PATCH_USER = "https://norma.nomoreparties.space/api/auth/user";
 
 export const patchUser = createAsyncThunk('patchUs/patchUser', async (value) => {
 
-    console.log(value)
-
     const response = await fetch(URL_FOR_PATCH_USER, {
         method: 'PATCH',
         headers: {
@@ -36,7 +34,7 @@ const patchUserSlice = createSlice({
             state.loading = false
         })
         .addCase(patchUser.fulfilled, (state, action) => {
-            console.log(action)
+            state.loading = true
         })
         .addCase(patchUser.rejected, (state, action) => {
             state.error = true

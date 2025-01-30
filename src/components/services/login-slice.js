@@ -14,23 +14,24 @@ export const loginUser = createAsyncThunk('logUs/loginUser', async (value) => {
     if(!response.ok) {
         throw new Error('Ошибка')
     }
-    
+
+
     return response.json();
 })
 
 const loginUserSlice = createSlice({
     name: 'loginUser',
     initialState: {
-        email: '',
+        email: null,
         name: '',
         error: false,
-        access: false,
+        userAccess: false,
     },
     reducers: {},
     extraReducers: (builder) => {
         builder
         .addCase(loginUser.pending, (state, action) => {
-            state.access = false;
+            state.userAccess = false;
         })
         .addCase(loginUser.fulfilled, (state, action) => {
             state.email = action.payload.user.email;
@@ -44,11 +45,13 @@ const loginUserSlice = createSlice({
             }
 
             localStorage.setItem('refreshToken', refreshToken);
+
+            state.userAccess = true;
             
-            state.access = true;
         })
         .addCase(loginUser.rejected, (state, action) => {
             state.error = true
+            state.userAccess = false;
         })
     }
 });
