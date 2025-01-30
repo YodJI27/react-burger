@@ -19,8 +19,17 @@ const ingredientsSlice = createSlice({
         ingredients: [],
         loading: false,
         error: false,
+        priceIngTotal: 0,
+        priceBunTotal: 0
     },
-    reducers: {},
+    reducers: {
+        setPriceIngTotal(state, action) {
+            state.priceIngTotal = action.payload;
+        },
+        setPriceBunTotal(state, action) {
+            state.priceBunTotal = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
         .addCase(getIngredients.pending, (state, action) => {
@@ -35,5 +44,7 @@ const ingredientsSlice = createSlice({
         })
     }
 });
+
+export const {setPriceIngTotal, setPriceBunTotal} = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

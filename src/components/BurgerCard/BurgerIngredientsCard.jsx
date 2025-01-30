@@ -4,9 +4,12 @@ import classNames from 'classnames';
 import { ingredientPropTypes } from '../../../utils/IngredientType';
 import { useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 
 
 const BurgerIngredientsCard = ({ingredient, openModal}) => {
+
+    const location = useLocation();
 
     const [, dragRef] = useDrag({
         type: 'ingredient',
@@ -18,15 +21,17 @@ const BurgerIngredientsCard = ({ingredient, openModal}) => {
     const checkCountIng = constructor.filter(el => el._id == ingredient._id);
 
     return (
-        <div className={styles.cardBurger} ref={dragRef} onClick={e => openModal(ingredient)}>
-            <img src={ingredient.image} alt={ingredient.name} className='pr-4 pl-4'/>
-            <div className={classNames(styles.price, 'pt-1 pb-1')}>
-                <p className="text text_type_main-medium pr-1">{ingredient.price}</p>
-                <CurrencyIcon type="primary"/>
+        <Link key={ingredient._id} to={`/ingredients/${ingredient._id}`} state={{background: location}} className={styles.link}>
+            <div className={styles.cardBurger} ref={dragRef} onClick={e => openModal(ingredient)}>
+                <img src={ingredient.image} alt={ingredient.name} className='pr-4 pl-4'/>
+                <div className={classNames(styles.price, 'pt-1 pb-1')}>
+                    <p className="text text_type_main-medium pr-1">{ingredient.price}</p>
+                    <CurrencyIcon type="primary"/>
+                </div>
+                <p className={classNames(styles.text, "text text_type_main-default")}>{ingredient.name}</p>
+                {(checkCountIng != 0 || bun?._id == ingredient._id) && <Counter count={ingredient.type === 'bun' ? bun?._id == ingredient._id ? 2 : 0 : checkCountIng.length} size="default" extraClass="m-1" />}
             </div>
-            <p className={classNames(styles.text, "text text_type_main-default")}>{ingredient.name}</p>
-            {(checkCountIng != 0 || bun?._id == ingredient._id) && <Counter count={ingredient.type === 'bun' ? bun?._id == ingredient._id ? 2 : 0 : checkCountIng.length} size="default" extraClass="m-1" />}
-        </div>
+        </Link>
     )
 }
 

@@ -6,18 +6,17 @@ import BurgerIngredientsCard from "../burgerCard/BurgerIngredientsCard";
 import Modal from "../Modals/Modal";
 import IngredientDetails from "../Modals/IngredientsDetails";
 import { useDispatch, useSelector } from "react-redux";
-import { setIngredientsDetails } from "../services/ingredientDetails";
+import { setIngredientsDetails, setOpenModalIngredients } from "../services/ingredient-details";
 
 const BurgerIngredients = () => {
 
     const ingredients = useSelector(store => store.ingredientsSlice.ingredients);
+    const openModalIng = useSelector(store => store.ingredientsDetailsSlice.open);
 
     const [current, setCurrent] = useState('breads');
     const [breads, setBreads] = useState([]);
     const [sauces, setSauces] = useState([]);
     const [fillings, setFillings] = useState([]);
-    const [openModal, setOpenModal] = useState(false);
-    const [dataModal, setDataModal] = useState(null);
     const blockRef = useRef(null);
     const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState('breads');
@@ -76,12 +75,11 @@ const BurgerIngredients = () => {
 
     const handleOpenModal = (ingredient) => {
         dispatch(setIngredientsDetails(ingredient));
-        setOpenModal(true);
+        dispatch(setOpenModalIngredients(true));
     }
 
     const handleCloseModal = () => {
-        setOpenModal(false);
-        setDataModal(null);
+        dispatch(setOpenModalIngredients(false));
     }
 
 
@@ -119,7 +117,7 @@ const BurgerIngredients = () => {
                     </div>
                 </div>
             </div>
-            {openModal && <Modal title='Детали ингредиента' onClose={handleCloseModal}><IngredientDetails /></Modal>}
+            {openModalIng && <Modal title='Детали ингредиента' onClose={handleCloseModal}><IngredientDetails /></Modal>}
         </div>
     )
 };
