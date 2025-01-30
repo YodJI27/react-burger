@@ -13,6 +13,7 @@ import { ProtectedRouteElement } from './ProtectedRouteElement/ProtectedRouteEle
 import IngredientDetails from './Modals/IngredientsDetails.jsx';
 import Modal from './Modals/Modal.jsx';
 import { setOpenModalIngredients } from './services/ingredient-details.js';
+import { NotFound } from '../pages/not-found.jsx';
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ function App() {
         <Route path="/profile" element={<ProtectedRouteElement component={<Profile />} />}/>
         <Route path="/profile/orders" element={<ProtectedRouteElement component={<Profile />} />}/>
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {background && (
