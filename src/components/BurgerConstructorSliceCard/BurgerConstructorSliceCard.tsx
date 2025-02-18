@@ -4,25 +4,31 @@ import styles from "../BurgerConstructor/burgerConstructor.module.css";
 import classNames from "classnames";
 import { setDeleteIngredient, setDragConstructor } from "../services/constructor";
 import { useDispatch, useSelector } from "react-redux";
-import { useRef } from "react";
+import { FC, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { ingredientPropTypes } from "../../../utils/IngredientType";
-import PropTypes from "prop-types";
 import { setPriceIngTotal } from "../services/ingredients";
+import { useAppSelector } from "../../hooks/hooks";
+import { IIngredientPropTypes } from "../../../utils/IngredientType";
+
+interface iBurgerSliceCard {
+    indexIng: number,
+    item: IIngredientPropTypes,
+    moveCard: Function
+}
 
 
-const BurgerConstructorSliceCard = ({item, indexIng, moveCard}) => {
+const BurgerConstructorSliceCard: FC<iBurgerSliceCard> = ({item, indexIng, moveCard}) => {
 
     const dispatch = useDispatch();
-    const ref = useRef(null);
-    const {priceIngTotal} = useSelector(store => store.ingredientsSlice);
+    const ref = useRef<HTMLDivElement>(null);
+    const {priceIngTotal} = useAppSelector(store => store.ingredientsSlice);
 
-    const handleDeleteIng = (element) => {
+    const handleDeleteIng = (element: number) => {
         dispatch(setDeleteIngredient(element))
         dispatch(setPriceIngTotal(priceIngTotal - item.price));
     }
 
-    const [{ handlerId }, drop] = useDrop({
+    const [{ handlerId }, drop]: any = useDrop<{indexIng: number, id: string}>({
         accept: 'slice',
         collect(monitor) {
             return {
@@ -47,7 +53,7 @@ const BurgerConstructorSliceCard = ({item, indexIng, moveCard}) => {
                 (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
             const clientOffset = monitor.getClientOffset()
-
+            //@ts-ignore
             const hoverClientY = clientOffset.y - hoverBoundingRect.top
 
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -86,7 +92,7 @@ const BurgerConstructorSliceCard = ({item, indexIng, moveCard}) => {
                 text={item?.name}
                 price={item?.price}
                 thumbnail={item?.image}
-                handleClose={(e => handleDeleteIng(indexIng))}
+                handleClose={(() => handleDeleteIng(indexIng))}
             />
         </div>
     )
@@ -94,9 +100,3 @@ const BurgerConstructorSliceCard = ({item, indexIng, moveCard}) => {
 
 
 export default BurgerConstructorSliceCard;
-
-BurgerConstructorSliceCard.propTypes = {
-    item: ingredientPropTypes,
-    indexIng: PropTypes.number.isRequired,
-    moveCard: PropTypes.func.isRequired
-};

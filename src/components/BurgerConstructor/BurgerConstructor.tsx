@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { useCallback, useEffect, useState } from "react";
 import Modal from "../Modals/Modal";
 import OrderDetails from "../Modals/OrderDetails";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 import { setBunIngredients, setConstructor, setDragConstructor } from "../services/constructor";
 import BurgerConstructorSliceCard from "../BurgerConstructorSliceCard/BurgerConstructorSliceCard";
@@ -13,16 +13,22 @@ import { createOrder } from "../services/order";
 import { checkUserAuth } from "../services/get-user-slice";
 import {useNavigate } from "react-router-dom";
 import { setPriceBunTotal, setPriceIngTotal } from "../services/ingredients";
+import { AppDispatch } from "../../main";
+import { IIngredientPropTypes } from "../../../utils/IngredientType";
+import { useAppSelector } from "../../hooks/hooks";
+
 
 const BurgerConstructor = () => {
 
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
 
-    const { bun, constructor }  = useSelector(store => store.constructorSlice);
-    const {priceIngTotal, priceBunTotal} = useSelector(store => store.ingredientsSlice);
+    const bun = useAppSelector(store => store.constructorSlice.bun);
+    const constructor = useAppSelector(store => store.constructorSlice.constructor);
+    const priceIngTotal = useAppSelector(store => store.ingredientsSlice.priceIngTotal);
+    const priceBunTotal = useAppSelector(store => store.ingredientsSlice.priceBunTotal);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const handleOpenModal = () => {
 
@@ -31,8 +37,8 @@ const BurgerConstructor = () => {
         if(!checkAuthUser) {
             navigate('/login');
         } else {
-            const checkIdIng = constructor?.map(item => item._id);
-
+            const checkIdIng = constructor?.map((item: any) => item._id);
+            //@ts-ignore
             dispatch(createOrder([bun._id, ...checkIdIng]));
     
             setOpenModal(true);
@@ -43,7 +49,7 @@ const BurgerConstructor = () => {
         setOpenModal(false);
     }
 
-    const [{isHover}, dropTarget] = useDrop({
+    const [{isHover}, dropTarget]: any = useDrop<IIngredientPropTypes>({
         accept: 'ingredient',
         collect: monitor => ({
             isHover: monitor.isOver(),
@@ -61,7 +67,7 @@ const BurgerConstructor = () => {
 
     const borderHover = isHover ? styles.hoverBorder : '';
 
-    const moveCard = useCallback((dragIndex, hoverIndex) => {
+    const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
         dispatch(setDragConstructor({first: dragIndex, second: hoverIndex}));
       }, [dispatch])
 
@@ -72,8 +78,11 @@ const BurgerConstructor = () => {
                 <ConstructorElement
                     type="top"
                     isLocked={true}
+                    // @ts-ignore
                     text={bun.name}
+                    // @ts-ignore
                     price={bun.price}
+                    // @ts-ignore
                     thumbnail={bun.image}
                 />
             </div> : <div className={classNames(styles.burger, borderHover)} style={{borderRadius: 'var(--top-constructor-item-border-radius)'}}>Добавьте булку</div>}
@@ -87,8 +96,11 @@ const BurgerConstructor = () => {
                 <ConstructorElement
                     type="bottom"
                     isLocked={true}
+                    // @ts-ignore
                     text={bun.name}
+                    // @ts-ignore
                     price={bun.price}
+                    // @ts-ignore
                     thumbnail={bun.image}
                 />
             </div> : <div className={classNames(styles.burger, borderHover)} style={{borderRadius: 'var(--bottom-constructor-item-border-radius)'}}>Добавьте булку</div>}
