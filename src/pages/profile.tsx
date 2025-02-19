@@ -1,8 +1,7 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./profile.module.css";
+import styles from './profile.module.css';
 import { Navigate, NavLink, useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
-import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../components/services/logout-user-slice";
 import { FormEvent, useEffect, useState } from "react";
 import { authUser } from "../components/services/get-user-slice";
