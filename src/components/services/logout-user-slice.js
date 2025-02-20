@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const URL_FOR_LOGOUT_USER = "https://norma.nomoreparties.space/api/auth/logout";
+import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
+const URL_FOR_LOGOUT_USER = BASE_URL + '/auth/logout';
 
-export const logoutUser = createAsyncThunk('logoutUs/logoutUser', async (value) => {
+export const logoutUser = createAsyncThunk('logoutUs/logoutUser', async () => {
 
     const response = await fetch(URL_FOR_LOGOUT_USER, {
         method: 'POST',
@@ -11,11 +12,7 @@ export const logoutUser = createAsyncThunk('logoutUs/logoutUser', async (value) 
         body: JSON.stringify({token: localStorage.getItem('refreshToken')})
     })
 
-    if(!response.ok) {
-        throw new Error('Ошибка')
-    }
-    
-    return response.json();
+    return checkResponse(response)
 })
 
 const logoutUserSlice = createSlice({

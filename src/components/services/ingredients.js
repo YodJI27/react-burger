@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const URL_FOR_INGREDIENTS = "https://norma.nomoreparties.space/api/ingredients";
+import {BASE_URL} from '../../../utils/burgerApi'
+const URL_FOR_INGREDIENTS = BASE_URL + "/ingredients";
 // Список всех ингридиентов
 
 export const getIngredients = createAsyncThunk('ing/getIng', async () => {

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
-const URL_FOR_GET_USER = "https://norma.nomoreparties.space/api/auth/user";
+import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
+const URL_FOR_GET_USER = BASE_URL + "/auth/user";
 // Список всех ингридиентов
 
 
@@ -15,21 +15,15 @@ export const checkUserAuth = () => {
 
 export const authUser = createAsyncThunk('authUs/authUser', async () => {
 
-        const response = await fetch(URL_FOR_GET_USER, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                Authorization: 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-    
-        if(!response.ok) {
-            const errorData = await response.json();
-    
-            throw new Error(errorData.message)
+    const response = await fetch(URL_FOR_GET_USER, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }
-    
-        return response.json();
+    })
+
+    return checkResponse(response)
 
 })
 
@@ -54,7 +48,6 @@ const getUserSlice = createSlice({
             state.loading = true;
         })
         .addCase(authUser.rejected, (state, action) => {
-            console.log(action)
             state.message = action.error.message
             state.error = true;
         })

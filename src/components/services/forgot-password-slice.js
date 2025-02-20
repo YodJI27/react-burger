@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const URL_FOR_FORGOT_PASSWORD = "https://norma.nomoreparties.space/api/password-reset";
+import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
+const URL_FOR_FORGOT_PASSWORD = BASE_URL + "/password-reset";
 // Список всех ингридиентов
 
 export const forgotPasswordPost = createAsyncThunk('forPass/forgotPass', async (value) => {
-
-    console.log(value)
 
     const response = await fetch(URL_FOR_FORGOT_PASSWORD, {
         method: 'POST',
@@ -14,11 +13,7 @@ export const forgotPasswordPost = createAsyncThunk('forPass/forgotPass', async (
         body: JSON.stringify(value)
     })
 
-    if(!response.ok) {
-        throw new Error('Ошибка')
-    }
-    
-    return response.json();
+    return checkResponse(response)
 })
 
 const forgotPasswordSlice = createSlice({

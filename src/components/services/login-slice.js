@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const URL_FOR_LOGIN_USER = "https://norma.nomoreparties.space/api/auth/login";
+import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
+const URL_FOR_LOGIN_USER = BASE_URL + '/auth/login';
 
 export const loginUser = createAsyncThunk('logUs/loginUser', async (value) => {
 
@@ -9,14 +10,9 @@ export const loginUser = createAsyncThunk('logUs/loginUser', async (value) => {
           'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(value)
-    })
+    });
 
-    if(!response.ok) {
-        throw new Error('Ошибка')
-    }
-
-
-    return response.json();
+    return checkResponse(response)
 })
 
 const loginUserSlice = createSlice({

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const URL_FOR_REGISTER_USER = "https://norma.nomoreparties.space/api/auth/register";
+import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
+const URL_FOR_REGISTER_USER =  BASE_URL + "/auth/register";
 // Список всех ингридиентов
 
 export const registerUser = createAsyncThunk('regUs/registerUser', async (value) => {
@@ -12,11 +13,7 @@ export const registerUser = createAsyncThunk('regUs/registerUser', async (value)
         body: JSON.stringify(value)
     })
 
-    if(!response.ok) {
-        throw new Error('Ошибка')
-    }
-    
-    return response.json();
+    return checkResponse(response)
 })
 
 const registerUserSlice = createSlice({

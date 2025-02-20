@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const URL_FOR_RESET_PASSWORD = "https://norma.nomoreparties.space/api/password-reset/reset";
+import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
+const URL_FOR_RESET_PASSWORD =  BASE_URL + "/password-reset/reset";
 // Список всех ингридиентов
 
 export const resetPasswordPost = createAsyncThunk('resPass/resetPassword', async (value) => {
@@ -12,11 +13,7 @@ export const resetPasswordPost = createAsyncThunk('resPass/resetPassword', async
         body: JSON.stringify(value)
     })
 
-    if(!response.ok) {
-        throw new Error('Ошибка')
-    }
-    
-    return response.json();
+    return checkResponse(response)
 })
 
 const resetPasswordSlice = createSlice({
@@ -33,7 +30,6 @@ const resetPasswordSlice = createSlice({
             state.loading = false
         })
         .addCase(resetPasswordPost.fulfilled, (state, action) => {
-            console.log(action)
             state.loading = true;
         })
         .addCase(resetPasswordPost.rejected, (state, action) => {

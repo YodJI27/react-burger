@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const URL_FOR_ORDER = 'https://norma.nomoreparties.space/api/orders';
+import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
+const URL_FOR_ORDER = BASE_URL + '/api/orders';
 
 // объект созданного заказа.
 
@@ -13,11 +14,7 @@ export const createOrder = createAsyncThunk('order/createOrder', async (orderDat
         body: JSON.stringify({ingredients: orderData})
     })
 
-    if(!response.ok) {
-        throw new Error('Ошибка')
-    }
-
-    return response.json();
+    return checkResponse(response)
 })
 
 const orderSlice = createSlice({
