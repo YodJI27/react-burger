@@ -12,6 +12,8 @@ import refreshTokenSlice from './refresh-token-slice';
 import getUserSlice from './get-user-slice';
 import patchUserSlice from './patch-user-slice';
 
+export const BASE_URL = "https://norma.nomoreparties.space/api";
+
 const rootReducer = combineSlices({
     ingredientsSlice,
     ingredientsDetailsSlice,

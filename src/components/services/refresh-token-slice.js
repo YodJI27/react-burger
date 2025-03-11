@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const URL_FOR_REFRESH_TOKEN = "https://norma.nomoreparties.space/api/auth/token";
+import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
+const URL_FOR_REFRESH_TOKEN = BASE_URL + "/auth/token";
 
 export const refreshToken = createAsyncThunk('refTok/refreshToken', async () => {
 
@@ -11,11 +12,7 @@ export const refreshToken = createAsyncThunk('refTok/refreshToken', async () => 
         body: JSON.stringify({token: localStorage.getItem('refreshToken')})
     })
 
-    if(!response.ok) {
-        throw new Error('Ошибка')
-    }
-    
-    return response.json();
+    return checkResponse(response)
 })
 
 const refreshTokenSlice = createSlice({

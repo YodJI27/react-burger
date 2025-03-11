@@ -3,21 +3,24 @@ import styles from './login.module.css';
 import classNames from 'classnames';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { registerUser } from "../components/services/register-slice";
 import { useForm } from "../hooks/useForm";
+import { useAppSelector } from "../hooks/hooks";
 
 
 const Register = () => {
 
     const {values, handleChange} = useForm({email: '', password: '', name: ''});
-    const {loading, error} = useSelector(store => store.registerUserSlice)
+    const {loading, error} = useAppSelector(store => store.registerUserSlice)
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: FormEvent<HTMLElement>) => {
         event.preventDefault();
+
+        //@ts-ignore
         dispatch(registerUser(values));
     }
 
@@ -31,7 +34,7 @@ const Register = () => {
         <div className={styles.loginContainer}>
             <form className={styles.loginForm} onSubmit={handleSubmit}> 
                 <h2 className="text text_type_main-medium pb-6">Регистрация</h2>
-                <Input value={values.name} name="name" onChange={handleChange} placeholder="Имя" extraClass='pb-6' />
+                <Input value={values.name} name="name" onChange={handleChange} placeholder="Имя" extraClass='pb-6'/>
                 <EmailInput value={values.email} name="email" onChange={handleChange} extraClass='pb-6' />
                 <PasswordInput value={values.password} name="password" onChange={handleChange} extraClass='pb-6' />
                 <Button htmlType="submit" type="primary" size="large" extraClass="mb-20" disabled={false}>

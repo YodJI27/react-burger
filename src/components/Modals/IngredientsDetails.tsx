@@ -1,13 +1,14 @@
 
 import styles from './ingredientsDetails.module.css';
 import classNames from "classnames";
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/hooks';
+import { IIngredientPropTypes } from '../../../utils/IngredientType';
 
 const IngredientDetails = () => {
 
-    const ingredient = useSelector(store => store.ingredientsDetailsSlice.ingredientsDetails);
-    const listIng = useSelector(store => store.ingredientsSlice.ingredients);
+    const ingredient = useAppSelector(store => store.ingredientsDetailsSlice.ingredientsDetails);
+    const listIng: Array<IIngredientPropTypes> = useAppSelector(store => store.ingredientsSlice.ingredients);
 
     const { id } = useParams();
 

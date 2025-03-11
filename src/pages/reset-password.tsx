@@ -2,34 +2,41 @@ import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-de
 import styles from './login.module.css';
 import classNames from 'classnames';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { useState } from "react";
-import { forgotPasswordPost } from "../components/services/forgot-password-slice";
+import { FormEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { resetPasswordPost } from "../components/services/reset-password-slice";
 import { useForm } from "../hooks/useForm";
+import { useAppSelector } from "../hooks/hooks";
 
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
 
-    const {values, handleChange} = useForm({email: ''});
+    const {values, handleChange} = useForm({password: '', token: ''});
     const dispatch = useDispatch();
-    const {loading} = useSelector((store) => store.forgotPasswordSlice);
+    const {loading} = useAppSelector((store) => store.resetPasswordSlice);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: FormEvent<HTMLElement>) => {
         event.preventDefault();
-        dispatch(forgotPasswordPost(values));
+
+        //@ts-ignore
+        dispatch(resetPasswordPost(values));
     }
+
+    console.log(values)
 
     if(loading) {
-        return <Navigate to="/reset-password" />
+        return <Navigate to="/login" />
     }
+
 
     return (
         <div className={styles.loginContainer}>
             <form className={styles.loginForm} onSubmit={handleSubmit}>
                 <h2 className="text text_type_main-medium pb-6">Восстановление пароля</h2>
-                <EmailInput value={values.email} name="email" onChange={handleChange} extraClass='pb-6' placeholder="Введите E-mail" />
+                <PasswordInput value={values.password} name="password" onChange={handleChange} extraClass='pb-6' placeholder="Введите новый пароль" />
+                <Input value={values.token} name="token" onChange={handleChange} extraClass='pb-6' placeholder="Введите код из письма" />
                 <Button htmlType="submit" type="primary" size="large" extraClass="mb-20" disabled={false}>
-                    Восстановить
+                    Сохранить
                 </Button>
                 <div className={classNames(styles.link, 'pb-4')}>
                     <p className="text text_color_inactive text_type_main-small pr-2">Вспомнили пароль?</p>
@@ -45,4 +52,4 @@ const ForgotPassword = () => {
 }
 
 
-export default ForgotPassword;
+export default ResetPassword;

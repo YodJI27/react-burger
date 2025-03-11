@@ -2,39 +2,40 @@ import styles from "./burgerIngredients.module.css";
 import classNames from "classnames";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useRef, useState } from "react";
-import BurgerIngredientsCard from "../burgerCard/BurgerIngredientsCard";
+import BurgerIngredientsCard from "../BurgerCard/BurgerIngredientsCard";
 import Modal from "../Modals/Modal";
 import IngredientDetails from "../Modals/IngredientsDetails";
-import { useDispatch, useSelector } from "react-redux";
-import { setIngredientsDetails, setOpenModalIngredients } from "../services/ingredient-details";
+import { useDispatch } from "react-redux";
+import { setOpenModalIngredients } from "../services/ingredient-details";
+import { useAppSelector } from "../../hooks/hooks";
 
 const BurgerIngredients = () => {
 
-    const ingredients = useSelector(store => store.ingredientsSlice.ingredients);
-    const openModalIng = useSelector(store => store.ingredientsDetailsSlice.open);
+    const ingredients = useAppSelector(store => store.ingredientsSlice.ingredients);
+    const openModalIng = useAppSelector(store => store.ingredientsDetailsSlice.open);
 
-    const [current, setCurrent] = useState('breads');
+    const [current, setCurrent] = useState<string | null>('breads');
     const [breads, setBreads] = useState([]);
     const [sauces, setSauces] = useState([]);
     const [fillings, setFillings] = useState([]);
-    const blockRef = useRef(null);
+    const blockRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState('breads');
 
-    const breadsRef = useRef(null);
-    const saucesRef = useRef(null);
-    const fillingsRef = useRef(null);
+    const breadsRef = useRef<HTMLParagraphElement>(null);
+    const saucesRef = useRef<HTMLParagraphElement>(null);
+    const fillingsRef = useRef<HTMLParagraphElement>(null);
 
-    const handleScrollBlock = (e) => {
+    const handleScrollBlock = (e: any) => {
 
         setCurrent(null)
 
         const scrollTop = e.srcElement.scrollTop;
         let checker = 'breads';
 
-        const breadsPosition = breadsRef.current.getBoundingClientRect().y;
-        const saucesPosition = saucesRef.current.getBoundingClientRect().y;
-        const fillingsPosition = fillingsRef.current.getBoundingClientRect().y;
+        const breadsPosition = breadsRef.current != null && breadsRef.current.getBoundingClientRect().y;
+        const saucesPosition = saucesRef.current != null && saucesRef.current.getBoundingClientRect().y;
+        const fillingsPosition = fillingsRef.current != null && fillingsRef.current.getBoundingClientRect().y;
 
         if(scrollTop > breadsPosition) checker = 'breads';
         if(scrollTop > saucesPosition) checker = 'sauces';
@@ -46,14 +47,16 @@ const BurgerIngredients = () => {
     useEffect(() => {
         const block = blockRef.current;
 
-        block.addEventListener('scroll', handleScrollBlock);
+        if(block != null) {
+            block.addEventListener('scroll', handleScrollBlock);
 
-        return () => {
-            block.removeEventListener('scroll', handleScrollBlock);
+            return () => {
+                block.removeEventListener('scroll', handleScrollBlock);
+            }
         }
     }, [])
 
-    const scrollToSections = (ref) => {
+    const scrollToSections = (ref: any) => {
 
         if(ref.current) {
             ref.current.scrollIntoView({behavior: 'smooth'});
@@ -62,19 +65,19 @@ const BurgerIngredients = () => {
 
     useEffect(() => {
 
-        const filteredBreadsArray = ingredients?.filter(obj => obj.type === 'bun');
+        const filteredBreadsArray = ingredients?.filter((obj: any) => obj.type === 'bun');
         setBreads(filteredBreadsArray);
 
-        const filteredSaucesArray = ingredients?.filter(obj => obj.type === 'sauce');
+        const filteredSaucesArray = ingredients?.filter((obj: any) => obj.type === 'sauce');
         setSauces(filteredSaucesArray);
 
-        const filteredFillingsArray = ingredients?.filter(obj => obj.type === 'main');
+        const filteredFillingsArray = ingredients?.filter((obj: any) => obj.type === 'main');
         setFillings(filteredFillingsArray);
 
     }, [ingredients]);
 
-    const handleOpenModal = (ingredient) => {
-        dispatch(setIngredientsDetails(ingredient));
+    const handleOpenModal = () => {
+        // dispatch(setIngredientsDetails(ingredient));
         dispatch(setOpenModalIngredients(true));
     }
 
@@ -95,7 +98,7 @@ const BurgerIngredients = () => {
                 <div className={styles.listRow}>
                     <p ref={breadsRef} className="nav_title text text_type_main-medium">Булки</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
-                        {breads?.map((ingredient) => (
+                        {breads?.map((ingredient: any) => (
                             <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} openModal={handleOpenModal} />
                         ))}
                     </div>
@@ -103,7 +106,7 @@ const BurgerIngredients = () => {
                 <div className={styles.listRow}>
                     <p ref={saucesRef} className="nav_title text text_type_main-medium">Соусы</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
-                        {sauces?.map((ingredient) => (
+                        {sauces?.map((ingredient: any) => (
                             <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} openModal={handleOpenModal}/>
                         ))}
                     </div>
@@ -111,7 +114,7 @@ const BurgerIngredients = () => {
                 <div className={styles.listRow}>
                     <p ref={fillingsRef} className="nav_title text text_type_main-medium">Начинки</p>
                     <div className={classNames(styles.listCard, 'pt-6 pb-10')}>
-                        {fillings?.map((ingredient) => (
+                        {fillings?.map((ingredient: any) => (
                             <BurgerIngredientsCard key={ingredient._id} ingredient={ingredient} openModal={handleOpenModal}/>
                         ))}
                     </div>

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useNavigate } from "react-router-dom";
-const URL_FOR_PATCH_USER = "https://norma.nomoreparties.space/api/auth/user";
+import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
+const URL_FOR_PATCH_USER = BASE_URL + '/auth/user';
 // Список всех ингридиентов
 
 export const patchUser = createAsyncThunk('patchUs/patchUser', async (value) => {
@@ -14,11 +14,7 @@ export const patchUser = createAsyncThunk('patchUs/patchUser', async (value) => 
         body: JSON.stringify(value)
     })
 
-    if(!response.ok) {
-        throw new Error('Ошибка')
-    }
-    
-    return response.json();
+    return checkResponse(response)
 })
 
 const patchUserSlice = createSlice({

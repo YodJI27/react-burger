@@ -1,13 +1,21 @@
 import styles from './burgerIngredientsCard.module.css';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import classNames from 'classnames';
-import { ingredientPropTypes } from '../../../utils/IngredientType';
+// import { IingredientPropTypes } from '../../../utils/IngredientType';
 import { useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { FC } from 'react';
+import { RootState } from '../../main';
+import { IIngredientPropTypes } from '../../../utils/IngredientType';
+
+interface ICardProps {
+    ingredient: IIngredientPropTypes,
+    openModal: Function
+}
 
 
-const BurgerIngredientsCard = ({ingredient, openModal}) => {
+const BurgerIngredientsCard: FC<ICardProps> = ({ingredient, openModal}) => {
 
     const location = useLocation();
 
@@ -16,9 +24,9 @@ const BurgerIngredientsCard = ({ingredient, openModal}) => {
         item: ingredient
     });
 
-    const { bun, constructor }  = useSelector(store => store.constructorSlice);
+    const { bun, constructor } = useSelector((store: RootState) => store.constructorSlice);
 
-    const checkCountIng = constructor.filter(el => el._id == ingredient._id);
+    const checkCountIng = constructor.filter((el: any) => el._id == ingredient._id);
 
     return (
         <Link key={ingredient._id} to={`/ingredients/${ingredient._id}`} state={{background: location}} className={styles.link}>
@@ -29,14 +37,11 @@ const BurgerIngredientsCard = ({ingredient, openModal}) => {
                     <CurrencyIcon type="primary"/>
                 </div>
                 <p className={classNames(styles.text, "text text_type_main-default")}>{ingredient.name}</p>
-                {(checkCountIng != 0 || bun?._id == ingredient._id) && <Counter count={ingredient.type === 'bun' ? bun?._id == ingredient._id ? 2 : 0 : checkCountIng.length} size="default" extraClass="m-1" />}
+                {/* @ts-ignore */}
+                {(checkCountIng.length != 0 || bun?._id == ingredient._id) && <Counter count={ingredient.type === 'bun' ? bun?._id == ingredient._id ? 2 : 0 : checkCountIng.length} size="default" extraClass="m-1" />}
             </div>
         </Link>
     )
-}
-
-BurgerIngredientsCard.propTypes = {
-    ingredient: ingredientPropTypes
 }
 
 export default BurgerIngredientsCard;

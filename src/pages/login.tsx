@@ -4,9 +4,10 @@ import classNames from 'classnames';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { loginUser } from '../components/services/login-slice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { checkUserAuth } from '../components/services/get-user-slice';
 import { useForm } from '../hooks/useForm';
+import { useAppDispatch } from '../hooks/hooks';
 
 
 const Login = () => {
@@ -19,11 +20,13 @@ const Login = () => {
         return <Navigate to="/" />
     }
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: FormEvent<HTMLElement>) => {
         event.preventDefault();
-        dispatch(loginUser({email: values.email, password: values.password}));
+
+        //@ts-ignore
+        dispatch(loginUser(values));
         navigate('/');
     }
 

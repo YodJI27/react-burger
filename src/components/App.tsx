@@ -1,22 +1,23 @@
-import AppHeader from './AppHeader/AppHeader.jsx';
+import AppHeader from './AppHeader/AppHeader.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from './services/ingredients.js';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import Home from '../pages/home.jsx';
-import Login from '../pages/login.jsx';
+import Login from '../pages/login';
 import { useEffect } from 'react';
-import Register from '../pages/register.jsx';
-import ForgotPassword from '../pages/forgot-password.jsx';
-import ResetPassword from '../pages/reset-password.jsx';
-import Profile from '../pages/profile.jsx';
-import { ProtectedRouteElement } from './ProtectedRouteElement/ProtectedRouteElement.jsx';
-import IngredientDetails from './Modals/IngredientsDetails.jsx';
-import Modal from './Modals/Modal.jsx';
-import { setOpenModalIngredients } from './services/ingredient-details.js';
-import { NotFound } from '../pages/not-found.jsx';
+import Register from '../pages/register';
+import ForgotPassword from '../pages/forgot-password';
+import ResetPassword from '../pages/reset-password';
+import Profile from '../pages/profile';
+import { ProtectedRouteElement } from './ProtectedRouteElement/ProtectedRouteElement.js';
+import IngredientDetails from './Modals/IngredientsDetails';
+import Modal from './Modals/Modal';
+import { setOpenModalIngredients } from './services/ingredient-details';
+import { NotFound } from '../pages/not-found';
+import Home from '../pages/home';
+import { useAppDispatch } from '../hooks/hooks';
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -50,7 +51,7 @@ function App() {
       {background && (
         <Routes>
           <Route path='/ingredients/:id' element={
-              <Modal header='Детали ингредиента' onClose={handleCloseModal}>
+              <Modal title='Детали ингредиента' onClose={handleCloseModal}>
                 <IngredientDetails />
               </Modal>
             }
