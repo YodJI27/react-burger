@@ -21,7 +21,7 @@ const Profile = () => {
     const {values, handleChange, setValues} = useForm({email: email, password: '', name: name});
 
     useEffect(() => {
-        if(loading) {
+        if(!loading) {
             setValues({ email: email, name: name, password: '' });
         }
     }, [loading]);
@@ -90,8 +90,8 @@ const Profile = () => {
                 </div>
                 <form className="pt-5 pl-20" onSubmit={handleSubmitUser}>
                     <div>
-                        <Input icon='EditIcon' name={'name'} value={loading ? values.name : "Загрузка..."} onChange={handleChange} placeholder={"Имя"} extraClass="pb-6" />
-                        <EmailInput isIcon={true} name={'email'} value={loading ? values.email : "Загрузка..."} onChange={handleChange} placeholder={"Логин"} extraClass="pb-6"/>
+                        <Input icon='EditIcon' name={'name'} value={!loading ? values.name : "Загрузка..."} onChange={handleChange} placeholder={"Имя"} extraClass="pb-6" />
+                        <EmailInput isIcon={true} name={'email'} value={!loading ? values.email : "Загрузка..."} onChange={handleChange} placeholder={"Логин"} extraClass="pb-6"/>
                         <PasswordInput value={values.password} name={'password'} onChange={handleChange} placeholder={"Пароль"}/>
                     </div>
                     {isChange &&

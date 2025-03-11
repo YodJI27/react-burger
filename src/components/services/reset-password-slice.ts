@@ -3,6 +3,18 @@ import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
 const URL_FOR_RESET_PASSWORD =  BASE_URL + "/password-reset/reset";
 // Список всех ингридиентов
 
+interface ResetPasswordState {
+    message: string;
+    loading: boolean;
+    error: boolean;
+}
+
+const initialState: ResetPasswordState = {
+    message: "",
+    loading: false,
+    error: false,
+};
+
 export const resetPasswordPost = createAsyncThunk('resPass/resetPassword', async (value) => {
 
     const response = await fetch(URL_FOR_RESET_PASSWORD, {
@@ -18,21 +30,17 @@ export const resetPasswordPost = createAsyncThunk('resPass/resetPassword', async
 
 const resetPasswordSlice = createSlice({
     name: 'resetPassword',
-    initialState: {
-        message: "",
-        loading: false,
-        error: false,
-    },
+    initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-        .addCase(resetPasswordPost.pending, (state, action) => {
+        .addCase(resetPasswordPost.pending, (state) => {
             state.loading = false
         })
-        .addCase(resetPasswordPost.fulfilled, (state, action) => {
+        .addCase(resetPasswordPost.fulfilled, (state) => {
             state.loading = true;
         })
-        .addCase(resetPasswordPost.rejected, (state, action) => {
+        .addCase(resetPasswordPost.rejected, (state) => {
             state.error = true
         })
     }

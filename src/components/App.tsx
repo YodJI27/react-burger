@@ -1,6 +1,6 @@
 import AppHeader from './AppHeader/AppHeader.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIngredients } from './services/ingredients.js';
+import { getIngredients } from './services/ingredients';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Login from '../pages/login';
 import { useEffect } from 'react';

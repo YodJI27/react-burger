@@ -1,24 +1,33 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IIngredientPropTypes } from "../../../utils/IngredientType";
 
 // список всех ингредиентов в текущем конструкторе бургера
 
+
+interface ConstructorState {
+    constructor: IIngredientPropTypes[];
+    bun: IIngredientPropTypes | null;
+}
+
+const initialState: ConstructorState = {
+    constructor: [],
+    bun: null
+}
+
 const constructorSlice = createSlice({
     name: 'constructor',
-    initialState: {
-        constructor: [],
-        bun: null
-    },
+    initialState,
     reducers: {
-        setConstructor(state, action) {
+        setConstructor(state, action: PayloadAction<IIngredientPropTypes>) {
             state.constructor.push(action.payload)
         },
-        setBunIngredients(state, action) {
+        setBunIngredients(state, action: PayloadAction<IIngredientPropTypes>) {
             state.bun = action.payload
         },
-        setDeleteIngredient(state, action) {
+        setDeleteIngredient(state, action: PayloadAction<number>) {
             state.constructor.splice(action.payload, 1);
         },
-        setDragConstructor(state, action) {
+        setDragConstructor(state, action:  PayloadAction<{ first: number; second: number }>) {
             const checkFirst = action.payload.first;
             const checkSecond = action.payload.second;
 

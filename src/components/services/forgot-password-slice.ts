@@ -26,13 +26,13 @@ const forgotPasswordSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-        .addCase(forgotPasswordPost.pending, (state, action) => {
+        .addCase(forgotPasswordPost.pending, (state) => {
             state.loading = false
         })
-        .addCase(forgotPasswordPost.fulfilled, (state, action) => {
+        .addCase(forgotPasswordPost.fulfilled, (state) => {
             state.loading = true;
         })
-        .addCase(forgotPasswordPost.rejected, (state, action) => {
+        .addCase(forgotPasswordPost.rejected, (state) => {
             state.error = true
         })
     }

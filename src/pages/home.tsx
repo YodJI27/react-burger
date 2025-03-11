@@ -15,8 +15,8 @@ const Home = () => {
           <main className={styles.main}>
             <DndProvider backend={HTML5Backend}>
               <section className={classNames(styles.mainContent)}>
-                  {loading && <BurgerIngredients />}
-                  {loading && <BurgerConstructor />}
+                  {!loading && <BurgerIngredients />}
+                  {!loading && <BurgerConstructor />}
                   {error && <div>Проблема с данными...</div>}
               </section>
             </DndProvider>

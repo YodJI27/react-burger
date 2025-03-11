@@ -3,6 +3,16 @@ import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
 const URL_FOR_PATCH_USER = BASE_URL + '/auth/user';
 // Список всех ингридиентов
 
+interface PatchUserState {
+    loading: boolean;
+    error: boolean;
+}
+
+const initialState: PatchUserState = {
+    loading: false,
+    error: false,
+};
+
 export const patchUser = createAsyncThunk('patchUs/patchUser', async (value) => {
 
     const response = await fetch(URL_FOR_PATCH_USER, {
@@ -19,20 +29,17 @@ export const patchUser = createAsyncThunk('patchUs/patchUser', async (value) => 
 
 const patchUserSlice = createSlice({
     name: 'patchUser',
-    initialState: {
-        loading: false,
-        error: false,
-    },
+    initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-        .addCase(patchUser.pending, (state, action) => {
+        .addCase(patchUser.pending, (state) => {
             state.loading = false
         })
-        .addCase(patchUser.fulfilled, (state, action) => {
+        .addCase(patchUser.fulfilled, (state) => {
             state.loading = true
         })
-        .addCase(patchUser.rejected, (state, action) => {
+        .addCase(patchUser.rejected, (state) => {
             state.error = true
         })
     }

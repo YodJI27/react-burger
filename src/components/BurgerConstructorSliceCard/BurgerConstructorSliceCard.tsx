@@ -2,7 +2,7 @@
 import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "../BurgerConstructor/burgerConstructor.module.css";
 import classNames from "classnames";
-import { setDeleteIngredient, setDragConstructor } from "../services/constructor";
+import { setDeleteIngredient } from "../services/constructor";
 import { useDispatch, useSelector } from "react-redux";
 import { FC, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
