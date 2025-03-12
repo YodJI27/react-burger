@@ -11,6 +11,7 @@ import logoutUserSlice from './logout-user-slice';
 import refreshTokenSlice from './refresh-token-slice';
 import getUserSlice from './get-user-slice';
 import patchUserSlice from './patch-user-slice';
+import webSocketSlice from './feed'
 
 const rootReducer = combineSlices({
     ingredientsSlice,
@@ -24,7 +25,8 @@ const rootReducer = combineSlices({
     logoutUserSlice,
     refreshTokenSlice,
     getUserSlice,
-    patchUserSlice
+    patchUserSlice,
+    webSocketSlice
 })
 
 export default configureStore({

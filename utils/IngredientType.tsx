@@ -14,3 +14,14 @@ export interface IIngredientPropTypes {
     image_large: string,
     __v: number
 };
+
+
+export interface Order {
+    _id: string;
+    createdAt: string;
+    ingredients: [];
+    name: string;
+    number: number;
+    status: 'created' | 'pending' | 'done';
+    updatedAt: string;
+}

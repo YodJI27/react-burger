@@ -15,6 +15,7 @@ import { setOpenModalIngredients } from './services/ingredient-details';
 import { NotFound } from '../pages/not-found';
 import Home from '../pages/home';
 import { useAppDispatch } from '../hooks/hooks';
+import { FeedPage } from '../pages/feed.js';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -45,6 +46,7 @@ function App() {
         <Route path="/profile" element={<ProtectedRouteElement component={<Profile />} />}/>
         <Route path="/profile/orders" element={<ProtectedRouteElement component={<Profile />} />}/>
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
+        <Route path="/feed" element={<FeedPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
