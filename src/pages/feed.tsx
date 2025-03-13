@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks'
 import styles from './home.module.css'
-import { useSelector } from 'react-redux';
-import { RootState } from '../main';
 import { connectWebSocket } from '../components/services/feed';
 import FeedOrder from '../components/feeds/feed-order';
 import OrderTotal from '../components/feeds/order-total';

@@ -15,7 +15,7 @@ const OrderTotal = () => {
                     <p className="text text_type_main-medium pb-5">Готовы:</p>
                     <div className={styles.columnList}>
                         {doneOrders.map((item) => (
-                            <p className={classNames("text text_type_main-default", styles.done)}>{item}</p>
+                            <p key={item}  className={classNames("text text_type_main-default", styles.done)}>{item}</p>
                         ))}
                     </div>
                 </div>
@@ -23,7 +23,7 @@ const OrderTotal = () => {
                     <p className="text text_type_main-medium pb-5">В работе:</p>
                     <div className={styles.columnList}>
                         {pendingOrders.map((item) => (
-                            <p className="text text_type_main-default">{item}</p>
+                            <p key={item} className="text text_type_main-default">{item}</p>
                         ))}
                     </div>
                 </div>

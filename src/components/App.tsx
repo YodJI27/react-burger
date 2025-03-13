@@ -16,6 +16,7 @@ import { NotFound } from '../pages/not-found';
 import Home from '../pages/home';
 import { useAppDispatch } from '../hooks/hooks';
 import { FeedPage } from '../pages/feed.js';
+import InfoCard from './feeds/info-card.js';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -47,6 +48,7 @@ function App() {
         <Route path="/profile/orders" element={<ProtectedRouteElement component={<Profile />} />}/>
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
         <Route path="/feed" element={<FeedPage />} />
+        <Route path="/feed/:id" element={<InfoCard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

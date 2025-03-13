@@ -3,6 +3,7 @@ import { Order } from "../../../utils/IngredientType"
 import { FC } from "react";
 import { useAppSelector } from "../../hooks/hooks";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link, useLocation } from "react-router-dom";
 
 interface IFeedCardProps {
     order: Order,
@@ -38,6 +39,7 @@ export const formatDate = (dateString: string): string => {
 const FeedCard: FC<IFeedCardProps> = ({order}) => {
 
     const ingredients = useAppSelector(store => store.ingredientsSlice.ingredients);
+    const location = useLocation();
 
     let checkOrder: any = [];
 
@@ -50,13 +52,13 @@ const FeedCard: FC<IFeedCardProps> = ({order}) => {
         let options = ingredients.find(el => el._id === id);
         if(!options) return;
 
-        checkOrder.push(<div className={styles.ingredient}>
+        checkOrder.push(<div className={styles.ingredient} key={i}>
             <img alt={options.name} src={options.image} className={styles.img} />
         </div>)
     });
 
     return (
-        <>
+        <Link to={`${location.pathname}/${order.number}`} key={order._id} className={styles.link}>
             <div className={styles.header}>
                 <p className="text text_type_digits-default">#{order.number}</p>
                 <p className="text text_type_main-default text_color_inactive">{formatDate(order.createdAt)}</p>
@@ -69,7 +71,7 @@ const FeedCard: FC<IFeedCardProps> = ({order}) => {
                     <CurrencyIcon type="primary" />
                 </div>
             </div>
-        </>
+        </Link>
     )
 }
 
