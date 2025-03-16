@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks'
 import styles from './home.module.css'
-import { connectWebSocket } from '../components/services/feed';
+import { closeWebSocket, connectWebSocket } from '../components/services/feed';
 import FeedOrder from '../components/feeds/feed-order';
 import OrderTotal from '../components/feeds/order-total';
 
@@ -12,10 +12,15 @@ export const FeedPage = () => {
 
     useEffect(() => {
         dispatch(connectWebSocket());
+
+        return () => {
+            dispatch(closeWebSocket());
+        }
     }, [dispatch]);
 
     return (
         <div className={styles.feedContent}>
+            {(connected && !error) ? 
             <div className={styles.content}>
                 <div className={styles.orderContent}>
                     <h2 className="text text_type_main-large pb-5">Лента заказов</h2>
@@ -24,7 +29,7 @@ export const FeedPage = () => {
                 <div className={styles.orderContent}>
                     <OrderTotal />
                 </div>
-            </div>
+            </div> : <div className='text text_type_main-large'>...Загрузка</div>}
         </div>
     )
 }

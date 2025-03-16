@@ -1,41 +1,73 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {BASE_URL, checkResponse} from '../../../utils/burgerApi'
 const URL_FOR_FORGOT_PASSWORD = BASE_URL + "/password-reset";
-// Список всех ингридиентов
 
-export const forgotPasswordPost = createAsyncThunk('forPass/forgotPass', async (value) => {
+interface ForgotPasswordRequest {
+    email: string;
+  }
+  
+  interface ForgotPasswordResponse {
+    success: boolean;
+    message: string;
+  }
 
-    const response = await fetch(URL_FOR_FORGOT_PASSWORD, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(value)
-    })
+  interface ForgotPasswordState {
+    message: string;
+    loading: boolean;
+    error: boolean;
+  }
+  
+  const initialState: ForgotPasswordState = {
+    message: "",
+    loading: false,
+    error: false,
+  };
 
-    return checkResponse(response)
-})
-
-const forgotPasswordSlice = createSlice({
+  export const forgotPasswordPost = createAsyncThunk<
+    ForgotPasswordResponse,
+    ForgotPasswordRequest, 
+    { rejectValue: string }
+  >(
+    'forPass/forgotPass',
+    async (value: ForgotPasswordRequest, { rejectWithValue }) => {
+      try {
+        const response = await fetch(URL_FOR_FORGOT_PASSWORD, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+          },
+          body: JSON.stringify(value),
+        });
+  
+        const data = await checkResponse(response);
+        return data;
+      } catch (error) {
+        return rejectWithValue((error as Error).message);
+      }
+    }
+  );
+  
+  // Создаем slice
+  const forgotPasswordSlice = createSlice({
     name: 'forgotPassword',
-    initialState: {
-        message: "",
-        loading: false,
-        error: false,
-    },
+    initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder
+      builder
         .addCase(forgotPasswordPost.pending, (state) => {
-            state.loading = false
+          state.loading = true;
+          state.error = false;
         })
-        .addCase(forgotPasswordPost.fulfilled, (state) => {
-            state.loading = true;
+        .addCase(forgotPasswordPost.fulfilled, (state, action) => {
+          state.loading = false;
+          state.message = action.payload.message;
         })
-        .addCase(forgotPasswordPost.rejected, (state) => {
-            state.error = true
-        })
-    }
-});
-
-export default forgotPasswordSlice.reducer;
+        .addCase(forgotPasswordPost.rejected, (state, action) => {
+          state.loading = false;
+          state.error = true;
+          state.message = action.payload || "An error occurred";
+        });
+    },
+  });
+  
+  export default forgotPasswordSlice.reducer;

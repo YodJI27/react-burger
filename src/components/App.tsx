@@ -17,6 +17,8 @@ import Home from '../pages/home';
 import { useAppDispatch } from '../hooks/hooks';
 import { FeedPage } from '../pages/feed.js';
 import InfoCard from './feeds/info-card.js';
+import ProfileOrders from './profile/profile-orders.js';
+import ProfileUser from './profile/profile-user.js';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -44,8 +46,11 @@ function App() {
         <Route path="/register" element={<ProtectedRouteElement checkAuth component={<Register />} />}/>
         <Route path="/forgot-password" element={<ProtectedRouteElement checkAuth component={<ForgotPassword />} />} />
         <Route path="/reset-password" element={<ProtectedRouteElement checkAuth component={<ResetPassword />} />}/>
-        <Route path="/profile" element={<ProtectedRouteElement component={<Profile />} />}/>
-        <Route path="/profile/orders" element={<ProtectedRouteElement component={<Profile />} />}/>
+        <Route path="/profile" element={<ProtectedRouteElement component={<Profile />} />}>
+          <Route index element={<ProfileUser />} />
+          <Route path="orders" element={<ProfileOrders />}/>
+        </Route>
+        <Route path="/profile/orders/:id" element={<ProtectedRouteElement component={<InfoCard />} />} />
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
         <Route path="/feed" element={<FeedPage />} />
         <Route path="/feed/:id" element={<InfoCard />} />

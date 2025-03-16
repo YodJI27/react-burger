@@ -7,6 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 
 interface IFeedCardProps {
     order: Order,
+    withStatusOrder?: boolean
 }
 
 export const formatDate = (dateString: string): string => {
@@ -36,7 +37,7 @@ export const formatDate = (dateString: string): string => {
   };
 
 
-const FeedCard: FC<IFeedCardProps> = ({order}) => {
+const FeedCard: FC<IFeedCardProps> = ({order, withStatusOrder}) => {
 
     const ingredients = useAppSelector(store => store.ingredientsSlice.ingredients);
     const location = useLocation();
@@ -57,6 +58,22 @@ const FeedCard: FC<IFeedCardProps> = ({order}) => {
         </div>)
     });
 
+    let status = '';
+    switch (order.status) {
+        case "done":
+            status = 'Выполнен';
+            break;
+        case "pending":
+            status = 'В работе';
+            break;
+        case "created":
+            status = 'Создан';
+            break;
+
+        default:
+            break;
+    }
+
     return (
         <Link to={`${location.pathname}/${order.number}`} key={order._id} className={styles.link}>
             <div className={styles.header}>
@@ -64,6 +81,7 @@ const FeedCard: FC<IFeedCardProps> = ({order}) => {
                 <p className="text text_type_main-default text_color_inactive">{formatDate(order.createdAt)}</p>
             </div>
             <h2 className="text text_type_main-medium pb-5 pt-5">{order.name}</h2>
+            {withStatusOrder && <p className="text text_type_main-default pb-5" style={order.status == 'done' ? {color: '#00CCCC'} : {}}>{status}</p>}
             <div className={styles.footer}>
                 <div className={styles.imageContainer}>{checkOrder}</div>
                 <div className={styles.price}>

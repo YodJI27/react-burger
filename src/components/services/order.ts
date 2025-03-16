@@ -26,13 +26,12 @@ const initialState: OrderState = {
 export const createOrder = createAsyncThunk<OrderResponse, OrderData, { rejectValue: string }>(
     'order/createOrder',
     async (orderData, { rejectWithValue }) => {
-
-        console.log(orderData)
         try {
             const response = await fetch(URL_FOR_ORDER, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
+                    Authorization: 'Bearer ' + localStorage.getItem('accessToken')
                 },
                 body: JSON.stringify({ ingredients: orderData }),
             });

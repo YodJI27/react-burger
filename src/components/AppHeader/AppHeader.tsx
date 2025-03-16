@@ -18,11 +18,11 @@ const AppHeader = () => {
                     )}
                 </NavLink>
                 
-                <NavLink to={"/"} className={styles.navElement}>
+                <NavLink to={"/feed"} className={styles.navElement}>
                     {({ isActive }) => (
                         <div className={classNames(styles.buttonHeader, 'pl-5 pr-5 pb-4 pt-4')}>
-                            <ListIcon type="secondary" />
-                            <p className="text text_type_main-default ml-2 text_color_inactive">Лента заказов</p>
+                            <ListIcon type={isActive ? "primary" : "secondary"} />
+                            <p className={`text text_type_main-default ml-2 ${isActive ? "" : "text_color_inactive"}`}>Лента заказов</p>
                         </div>
                     )}
                 </NavLink>

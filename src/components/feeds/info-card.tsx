@@ -29,14 +29,14 @@ const InfoCard = () => {
 
     if(!orderData) return <div>Ошибка</div>;
 
-    console.log(orderData)
-
     let checkOrder: any = [];
 
     const priceOrder = orderData.ingredients.reduce((price, id) => {
         let options = ingredients.find(el => el._id === id)!;
         return options ? price + options.price : price;
     }, 0);
+
+    console.log(orderData)
 
     const ingredientsCounter: { id: string; count: number; }[] = [];
     orderData.ingredients.forEach((id: string) => {
@@ -55,7 +55,7 @@ const InfoCard = () => {
         let options = ingredients.find(el => el._id === item.id);
         if(!options) return;
 
-        checkOrder.push(<div className={styles.row}>
+        checkOrder.push(<div className={styles.row} key={options._id}>
             <div className={styles.imageContainer}>
                 <div className={styles.ingredient} key={options._id}>
                     <img alt={options.name} src={options.image} className={styles.img} />
@@ -89,15 +89,15 @@ const InfoCard = () => {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <p className="text text_type_digits-default">#{orderData.number}</p>
-                <h2 className="text text_type_digits-medium">{orderData.name}</h2>
-                <p className={classNames(styles.status, 'text text_type_main-small pt-5')}>{status}</p>
+                <p className="text text_type_digits-default pb-10">#{orderData.number}</p>
+                <h2 className="text text_type_main-medium">{orderData.name}</h2>
+                <p className={classNames(styles.status, 'text text_type_main-default pt-5')} style={status == 'Выполнен' ? {color: '#00CCCC'} : {}}>{status}</p>
                 <p className={classNames(styles.status, 'text text_type_main-medium pt-15 pb-5')}>Состав:</p>
                 <div className={styles.ingredients}>
                     {checkOrder}
                 </div>
                 <div className={styles.priceContainer}>
-                    <p className="text text_type_main-default text_color_inactive">{formatDate(orderData.createdAt)}</p>
+                    <p className="text text_type_main-default text_color_inactive">{orderData.createdAt ? formatDate(orderData.createdAt) : ''}</p>
                     <div className={styles.price}>
                         <p className="text text_type_main-default">{priceOrder}</p>
                         <CurrencyIcon type="primary" />

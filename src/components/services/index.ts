@@ -13,6 +13,7 @@ import getUserSlice from './get-user-slice';
 import patchUserSlice from './patch-user-slice';
 import webSocketSlice from './feed';
 import getOrderDataSlice from './info-order';
+import ordersSlice from './order-user'
 
 const rootReducer = combineSlices({
     ingredientsSlice,
@@ -28,7 +29,8 @@ const rootReducer = combineSlices({
     getUserSlice,
     patchUserSlice,
     webSocketSlice,
-    getOrderDataSlice
+    getOrderDataSlice,
+    ordersSlice
 })
 
 export default configureStore({

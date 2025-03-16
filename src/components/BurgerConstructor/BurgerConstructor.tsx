@@ -38,8 +38,9 @@ const BurgerConstructor = () => {
             navigate('/login');
         } else {
             const checkIdIng = constructor?.map((item: any) => item._id);
+            const token = localStorage.getItem('accessToken');
             //@ts-ignore
-            dispatch(createOrder([bun._id, ...checkIdIng]));
+            dispatch(createOrder([bun._id, ...checkIdIng, bun._id]));
     
             setOpenModal(true);
         }

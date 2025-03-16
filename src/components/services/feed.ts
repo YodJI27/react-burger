@@ -11,9 +11,9 @@ import { Order } from '../../../utils/IngredientType';
 
 interface WebSocketState {
   connected: boolean;
-  orders: Order[]; // Массив заказов
-  total: number; // Общее количество заказов
-  totalToday: number; // Количество заказов за сегодня
+  orders: Order[];
+  total: number; 
+  totalToday: number; 
   error: string | null;
 }
 
@@ -25,7 +25,6 @@ const initialState: WebSocketState = {
   error: null,
 };
 
-// Создаем асинхронный thunk для подключения к вебсокету
 export const connectWebSocket = createAsyncThunk(
   'websocket/connect',
   async (_, { dispatch }) => {
@@ -37,9 +36,9 @@ export const connectWebSocket = createAsyncThunk(
     };
 
     socket.onmessage = (event: MessageEvent) => {
-      const data: WebSocketResponse = JSON.parse(event.data); // Парсим данные
+      const data: WebSocketResponse = JSON.parse(event.data);
       if (data.success) {
-        dispatch(webSocketMessageReceived(data)); // Отправляем данные в Redux
+        dispatch(webSocketMessageReceived(data));
       } else {
         dispatch(webSocketError('Failed to fetch orders'));
       }
@@ -68,9 +67,9 @@ const webSocketSlice = createSlice({
       state.connected = true;
     },
     webSocketMessageReceived(state, action: PayloadAction<WebSocketResponse>) {
-      state.orders = action.payload.orders; // Обновляем заказы
-      state.total = action.payload.total; // Обновляем общее количество
-      state.totalToday = action.payload.totalToday; // Обновляем количество за сегодня
+      state.orders = action.payload.orders;
+      state.total = action.payload.total;
+      state.totalToday = action.payload.totalToday;
     },
     webSocketError(state, action: PayloadAction<string>) {
       state.error = action.payload;
@@ -78,6 +77,13 @@ const webSocketSlice = createSlice({
     webSocketDisconnected(state) {
       state.connected = false;
     },
+    closeWebSocket(state) {
+        state.connected = false;
+        state.orders = [];
+        state.total = 0;
+        state.totalToday = 0;
+        state.error = null;
+      },
   },
 });
 
@@ -86,6 +92,7 @@ export const {
   webSocketMessageReceived,
   webSocketError,
   webSocketDisconnected,
+  closeWebSocket
 } = webSocketSlice.actions;
 
 export default webSocketSlice.reducer;
