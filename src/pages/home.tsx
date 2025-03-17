@@ -1,15 +1,15 @@
 import { DndProvider } from "react-dnd";
 import BurgerIngredients from "../components/BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../components/BurgerConstructor/BurgerConstructor";
-import { useSelector } from "react-redux";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import classNames from "classnames";
 import styles from './home.module.css';
 import { RootState } from "../main";
+import { useAppSelector } from "../hooks/hooks";
 
 
 const Home = () => {
-    const {loading, error} = useSelector((store: RootState) => store.ingredientsSlice);
+    const {loading, error} = useAppSelector(store => store.ingredientsSlice);
 
     return (
           <main className={styles.main}>

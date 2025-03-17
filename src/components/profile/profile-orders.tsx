@@ -2,22 +2,20 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import styles from "../feeds/feed-order.module.css"
 import FeedCard from "../feeds/feed-card";
-import { closeWebSocketOrders, connectToOrdersWebSocket } from "../services/order-user";
+import { wsConnectProfile, wsDisconnectProfile } from "../services/actions/orders-info";
 
 
 const ProfileOrders = () => {
 
-    const { orders, total, totalToday } = useAppSelector(state => state.ordersSlice);
+    const { orders } = useAppSelector(store => store.ordersUserSlice);
     const dispatch = useAppDispatch();
-
+    
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
-        if(token) {
-            dispatch(connectToOrdersWebSocket(token));
-        }
+        dispatch(wsConnectProfile(`wss://norma.nomoreparties.space/orders?token=${token}`));
 
         return () => {
-            dispatch(closeWebSocketOrders());
+            dispatch(wsDisconnectProfile());
         }
     }, [dispatch]);
 

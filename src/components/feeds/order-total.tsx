@@ -3,7 +3,7 @@ import { useAppSelector } from "../../hooks/hooks";
 import styles from './order-total.module.css'
 
 const OrderTotal = () => {
-    const {orders, total, totalToday } = useAppSelector(store => store.webSocketSlice);
+    const { orders, total, totalToday} = useAppSelector(store => store.getFeedSlice);
 
     const doneOrders = orders.filter(el => el.status === "done").map(el => el.number);
     const pendingOrders = orders.filter(el => el.status === "pending").map(el => el.number);

@@ -25,3 +25,19 @@ export interface Order {
     status: 'created' | 'pending' | 'done';
     updatedAt: string;
 }
+
+export interface WebSocketActionTypes {
+    connect: string;
+    disconnect: string;
+    send: string;
+    onOpen: string;
+    onMessage: string;
+    onError: string;
+    onClose: string;
+  }
+  
+  export interface WebSocketPayload {
+    url: string;
+    onMessageAction: string;
+    onErrorAction: string;
+  }

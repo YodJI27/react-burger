@@ -15,7 +15,7 @@ import {useNavigate } from "react-router-dom";
 import { setPriceBunTotal, setPriceIngTotal } from "../services/ingredients";
 import { AppDispatch } from "../../main";
 import { IIngredientPropTypes } from "../../../utils/IngredientType";
-import { useAppSelector } from "../../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 
 const BurgerConstructor = () => {
@@ -28,7 +28,7 @@ const BurgerConstructor = () => {
     const priceIngTotal = useAppSelector(store => store.ingredientsSlice.priceIngTotal);
     const priceBunTotal = useAppSelector(store => store.ingredientsSlice.priceBunTotal);
 
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
 
     const handleOpenModal = () => {
 

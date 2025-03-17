@@ -10,10 +10,9 @@ import { formatDate } from "./feed-card";
 
 const InfoCard = () => {
 
-
     const {id} = useParams();
     const ingredients = useAppSelector(store => store.ingredientsSlice.ingredients);
-    const {orders, total, totalToday } = useAppSelector(store => store.webSocketSlice);
+    const { orders } = useAppSelector(store => store.getFeedSlice);
     const {order} = useAppSelector(store => store.getOrderDataSlice);
     let orderData = orders.find(item => item.number.toString() == id);
 
@@ -35,8 +34,6 @@ const InfoCard = () => {
         let options = ingredients.find(el => el._id === id)!;
         return options ? price + options.price : price;
     }, 0);
-
-    console.log(orderData)
 
     const ingredientsCounter: { id: string; count: number; }[] = [];
     orderData.ingredients.forEach((id: string) => {

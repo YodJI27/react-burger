@@ -1,12 +1,10 @@
-import { useSelector } from "react-redux";
 import styles from "./feed-order.module.css"
 import { RootState } from "../../main";
 import { useAppSelector } from "../../hooks/hooks";
 import FeedCard from "./feed-card";
 
 const FeedOrder = () => {
-
-    const { connected, orders, error } = useAppSelector(store => store.webSocketSlice);
+    const { orders } = useAppSelector(store => store.getFeedSlice);
 
     return (
         <div className={styles.container}>

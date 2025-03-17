@@ -11,9 +11,33 @@ import logoutUserSlice from './logout-user-slice';
 import refreshTokenSlice from './refresh-token-slice';
 import getUserSlice from './get-user-slice';
 import patchUserSlice from './patch-user-slice';
-import webSocketSlice from './feed';
 import getOrderDataSlice from './info-order';
-import ordersSlice from './order-user'
+import { socketMiddleware } from "./middleware/socketMiddleware";
+import { wsConnect, wsDisconnect } from "./actions/websocketActions";
+import { wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "./feed";
+import getFeedSlice from './feed';
+import ordersUserSlice, { wsCloseProfile, wsConnectingProfile, wsErrorProfile, wsMessageProfile, wsOpenProfile } from './order-user';
+import { wsConnectProfile, wsDisconnectProfile } from "./actions/orders-info";
+
+const socketMiddlewareFeed = socketMiddleware({
+    wsConnect: wsConnect,
+    wsDisconnect: wsDisconnect,
+    wsConnecting: wsConnecting,
+    onOpen: wsOpen,
+    onClose: wsClose,
+    onError: wsError,
+    onMessage: wsMessage
+});
+
+const socketMiddlewareProfile = socketMiddleware({
+    wsConnect: wsConnectProfile,
+    wsDisconnect: wsDisconnectProfile,
+    wsConnecting: wsConnectingProfile,
+    onOpen: wsOpenProfile,
+    onClose: wsCloseProfile,
+    onError: wsErrorProfile,
+    onMessage: wsMessageProfile
+});
 
 const rootReducer = combineSlices({
     ingredientsSlice,
@@ -28,11 +52,16 @@ const rootReducer = combineSlices({
     refreshTokenSlice,
     getUserSlice,
     patchUserSlice,
-    webSocketSlice,
     getOrderDataSlice,
-    ordersSlice
+    ordersUserSlice,
+    getFeedSlice
 })
 
 export default configureStore({
-    reducer: rootReducer
+    reducer: rootReducer,
+    middleware: (getDefaultMidlewares) => {
+        return getDefaultMidlewares().concat(socketMiddlewareFeed, socketMiddlewareProfile);
+    }
 })
+
+export type RootState = ReturnType<typeof rootReducer>;

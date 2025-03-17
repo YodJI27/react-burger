@@ -4,15 +4,14 @@ import classNames from 'classnames';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { FormEvent, useState } from "react";
 import { forgotPasswordPost } from "../components/services/forgot-password-slice";
-import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../hooks/useForm";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 
 const ForgotPassword = () => {
 
     const {values, handleChange} = useForm({email: ''});
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const {loading} = useAppSelector((store) => store.forgotPasswordSlice);
 
     const handleSubmit = (event: FormEvent<HTMLElement>) => {

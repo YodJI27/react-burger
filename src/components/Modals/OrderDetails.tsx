@@ -1,7 +1,6 @@
 import styles from './orderDetails.module.css';
 import classNames from "classnames";
 import Icon from "../../images/done.svg";
-import { useSelector } from 'react-redux';
 import { useAppSelector } from '../../hooks/hooks';
 
 const OrderDetails = () => {
