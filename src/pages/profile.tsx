@@ -47,7 +47,7 @@ const Profile = () => {
                             <p className="text text_type_main-medium text_color_inactive">Выход</p>
                         </Button>
                     </div>
-                    <p className="text text_type_main-small text_color_inactive pt-30">В этом разделе вы можете изменить свои персональные данные</p>
+                    <p className="text text_type_main-small text_color_inactive pt-30">{pathname == '/profile/orders' ? 'В этом разделе вы можете просмотреть свою историю заказов' : 'В этом разделе вы можете изменить свои персональные данные' }</p>
                 </div>
                 <div className={styles.content}>
                     <Outlet />

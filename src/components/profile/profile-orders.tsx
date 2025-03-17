@@ -7,7 +7,7 @@ import { wsConnectProfile, wsDisconnectProfile } from "../services/actions/order
 
 const ProfileOrders = () => {
 
-    const { orders } = useAppSelector(store => store.ordersUserSlice);
+    const { orders, error } = useAppSelector(store => store.ordersUserSlice);
     const dispatch = useAppDispatch();
     
     useEffect(() => {
@@ -21,11 +21,11 @@ const ProfileOrders = () => {
 
     return (
         <div className={styles.container}>
-            {orders.map((item) => (
+            {!error && orders ? orders.map((item) => (
                 <div key={item._id} className={styles.card}>
                     <FeedCard order={item} withStatusOrder />
                 </div>
-            ))}
+            )) : <div>Загрузка...</div>}
         </div>
     )
 }

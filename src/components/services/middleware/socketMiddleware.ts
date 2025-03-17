@@ -1,6 +1,7 @@
 import { ActionCreatorWithPayload, ActionCreatorWithoutPayload, Middleware } from "@reduxjs/toolkit";
 import { RootState } from "../index";
 import { refreshToken } from "../refresh-token-slice";
+import { refreshTokenWs } from '../../../../utils/utils';
 
 export type TWsActions = {
     wsConnect: ActionCreatorWithPayload<string>,
@@ -53,9 +54,22 @@ export const socketMiddleware = (wsActions: TWsActions): Middleware<{}, RootStat
                 socket.onmessage = event => {
                     const { data } = event;
                     const parsedData = JSON.parse(data);
-                    const { message } = data;
-                    if (message === 'Invalid or missing token') {
-                        refreshToken();
+
+                    if (parsedData.message === 'Invalid or missing token') {
+                        (async () => {
+                            const response = await refreshTokenWs();
+                        
+                            const refreshData = await response.json();
+                        
+                            const authToken = refreshData.accessToken.split('Bearer ')[1];
+                            const refreshToken = refreshData.refreshToken;
+                        
+                            if (authToken) {
+                                localStorage.setItem('accessToken', authToken);
+                            }
+                        
+                            localStorage.setItem('refreshToken', refreshToken);
+                        })();
                     }
                     dispatch(onMessage(parsedData));
                 };
