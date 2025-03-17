@@ -36,11 +36,15 @@ const constructorSlice = createSlice({
             [newArray[checkFirst], newArray[checkSecond]] = [newArray[checkSecond], newArray[checkFirst]];
 
             state.constructor = newArray;
+        },
+        setClearData(state) {
+            state.constructor = [];
+            state.bun = null;
         }
     }
 });
 
 
-export const {setConstructor, setBunIngredients, setDeleteIngredient, setDragConstructor} = constructorSlice.actions;
+export const {setConstructor, setBunIngredients, setDeleteIngredient, setDragConstructor, setClearData} = constructorSlice.actions;
 
 export default constructorSlice.reducer;

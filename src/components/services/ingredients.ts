@@ -52,6 +52,10 @@ const ingredientsSlice = createSlice({
         },
         setPriceBunTotal(state, action: PayloadAction<number>) {
             state.priceBunTotal = action.payload;
+        },
+        setPriceClear(state) {
+            state.priceBunTotal = 0;
+            state.priceIngTotal = 0;
         }
     },
     extraReducers: (builder) => {
@@ -72,6 +76,6 @@ const ingredientsSlice = createSlice({
     }
 });
 
-export const { setPriceIngTotal, setPriceBunTotal } = ingredientsSlice.actions;
+export const { setPriceIngTotal, setPriceBunTotal, setPriceClear } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;
