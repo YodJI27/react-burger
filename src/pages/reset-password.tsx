@@ -3,16 +3,15 @@ import styles from './login.module.css';
 import classNames from 'classnames';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { FormEvent, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { resetPasswordPost } from "../components/services/reset-password-slice";
 import { useForm } from "../hooks/useForm";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 
 const ResetPassword = () => {
 
     const {values, handleChange} = useForm({password: '', token: ''});
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const {loading} = useAppSelector((store) => store.resetPasswordSlice);
 
     const handleSubmit = (event: FormEvent<HTMLElement>) => {

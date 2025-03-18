@@ -7,7 +7,8 @@ import Modal from "../Modals/Modal";
 import IngredientDetails from "../Modals/IngredientsDetails";
 import { useDispatch } from "react-redux";
 import { setOpenModalIngredients } from "../services/ingredient-details";
-import { useAppSelector } from "../../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { IIngredientPropTypes } from "../../../utils/IngredientType";
 
 const BurgerIngredients = () => {
 
@@ -15,11 +16,11 @@ const BurgerIngredients = () => {
     const openModalIng = useAppSelector(store => store.ingredientsDetailsSlice.open);
 
     const [current, setCurrent] = useState<string | null>('breads');
-    const [breads, setBreads] = useState([]);
-    const [sauces, setSauces] = useState([]);
-    const [fillings, setFillings] = useState([]);
+    const [breads, setBreads] = useState<IIngredientPropTypes[]>([]);
+    const [sauces, setSauces] = useState<IIngredientPropTypes[]>([]);
+    const [fillings, setFillings] = useState<IIngredientPropTypes[]>([]);
     const blockRef = useRef<HTMLDivElement>(null);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [activeTab, setActiveTab] = useState('breads');
 
     const breadsRef = useRef<HTMLParagraphElement>(null);

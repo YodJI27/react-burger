@@ -3,11 +3,11 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import classNames from 'classnames';
 // import { IingredientPropTypes } from '../../../utils/IngredientType';
 import { useDrag } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { FC } from 'react';
 import { RootState } from '../../main';
 import { IIngredientPropTypes } from '../../../utils/IngredientType';
+import { useAppSelector } from '../../hooks/hooks';
 
 interface ICardProps {
     ingredient: IIngredientPropTypes,
@@ -24,7 +24,7 @@ const BurgerIngredientsCard: FC<ICardProps> = ({ingredient, openModal}) => {
         item: ingredient
     });
 
-    const { bun, constructor } = useSelector((store: RootState) => store.constructorSlice);
+    const { bun, constructor } = useAppSelector(store => store.constructorSlice);
 
     const checkCountIng = constructor.filter((el: any) => el._id == ingredient._id);
 

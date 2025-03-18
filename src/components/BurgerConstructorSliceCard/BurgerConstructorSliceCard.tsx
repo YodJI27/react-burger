@@ -2,12 +2,11 @@
 import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "../BurgerConstructor/burgerConstructor.module.css";
 import classNames from "classnames";
-import { setDeleteIngredient, setDragConstructor } from "../services/constructor";
-import { useDispatch, useSelector } from "react-redux";
+import { setDeleteIngredient } from "../services/constructor";
 import { FC, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { setPriceIngTotal } from "../services/ingredients";
-import { useAppSelector } from "../../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { IIngredientPropTypes } from "../../../utils/IngredientType";
 
 interface iBurgerSliceCard {
@@ -19,7 +18,7 @@ interface iBurgerSliceCard {
 
 const BurgerConstructorSliceCard: FC<iBurgerSliceCard> = ({item, indexIng, moveCard}) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const ref = useRef<HTMLDivElement>(null);
     const {priceIngTotal} = useAppSelector(store => store.ingredientsSlice);
 

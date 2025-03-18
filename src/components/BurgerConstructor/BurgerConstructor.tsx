@@ -5,17 +5,15 @@ import classNames from "classnames";
 import { useCallback, useEffect, useState } from "react";
 import Modal from "../Modals/Modal";
 import OrderDetails from "../Modals/OrderDetails";
-import { useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
-import { setBunIngredients, setConstructor, setDragConstructor } from "../services/constructor";
+import { setBunIngredients, setClearData, setConstructor, setDragConstructor } from "../services/constructor";
 import BurgerConstructorSliceCard from "../BurgerConstructorSliceCard/BurgerConstructorSliceCard";
 import { createOrder } from "../services/order";
 import { checkUserAuth } from "../services/get-user-slice";
 import {useNavigate } from "react-router-dom";
-import { setPriceBunTotal, setPriceIngTotal } from "../services/ingredients";
-import { AppDispatch } from "../../main";
+import { setPriceBunTotal, setPriceClear, setPriceIngTotal } from "../services/ingredients";
 import { IIngredientPropTypes } from "../../../utils/IngredientType";
-import { useAppSelector } from "../../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 
 const BurgerConstructor = () => {
@@ -28,7 +26,7 @@ const BurgerConstructor = () => {
     const priceIngTotal = useAppSelector(store => store.ingredientsSlice.priceIngTotal);
     const priceBunTotal = useAppSelector(store => store.ingredientsSlice.priceBunTotal);
 
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
 
     const handleOpenModal = () => {
 
@@ -39,8 +37,9 @@ const BurgerConstructor = () => {
         } else {
             const checkIdIng = constructor?.map((item: any) => item._id);
             //@ts-ignore
-            dispatch(createOrder([bun._id, ...checkIdIng]));
-    
+            dispatch(createOrder([bun._id, ...checkIdIng, bun._id]));
+            dispatch(setClearData());
+            dispatch(setPriceClear());
             setOpenModal(true);
         }
     }

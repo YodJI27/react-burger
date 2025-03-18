@@ -1,0 +1,49 @@
+.container {
+    width: 100%;
+    padding-top: 50px;
+    padding-left: 50px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.orders {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: fit-content;
+    justify-content: flex-start;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+}
+
+.columnList {
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+}
+
+.list:nth-child(1) {
+    width: 60%;
+}
+
+.list:nth-child(2) {
+    width: 40%;
+}
+
+.done {
+    color: #00CCCC !important;
+}
+
+.total {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 40px;
+    justify-content: flex-start;
+}

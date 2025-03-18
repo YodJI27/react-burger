@@ -2,11 +2,10 @@ import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-de
 import styles from './login.module.css';
 import classNames from 'classnames';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
 import { FormEvent, useEffect, useState } from "react";
 import { registerUser } from "../components/services/register-slice";
 import { useForm } from "../hooks/useForm";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 
 const Register = () => {
@@ -14,7 +13,7 @@ const Register = () => {
     const {values, handleChange} = useForm({email: '', password: '', name: ''});
     const {loading, error} = useAppSelector(store => store.registerUserSlice)
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const handleSubmit = (event: FormEvent<HTMLElement>) => {
