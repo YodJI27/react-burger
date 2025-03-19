@@ -25,11 +25,12 @@ const BurgerConstructor = () => {
     const constructor = useAppSelector(store => store.constructorSlice.constructor);
     const priceIngTotal = useAppSelector(store => store.ingredientsSlice.priceIngTotal);
     const priceBunTotal = useAppSelector(store => store.ingredientsSlice.priceBunTotal);
-    const {userAccess} = useAppSelector(store => store.loginUserSlice);
 
     const dispatch = useAppDispatch();
 
     const handleOpenModal = () => {
+
+        const userAccess = checkUserAuth();
 
         if(!userAccess) {
             navigate('/login');
