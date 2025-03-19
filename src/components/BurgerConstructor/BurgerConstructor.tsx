@@ -37,7 +37,7 @@ const BurgerConstructor = () => {
         } else {
             const checkIdIng = constructor?.map((item: any) => item._id);
             //@ts-ignore
-            dispatch(createOrder([bun._id, ...checkIdIng, bun._id]));
+            dispatch(createOrder({ingredients: [bun._id, ...checkIdIng, bun._id]}));
             dispatch(setClearData());
             dispatch(setPriceClear());
             setOpenModal(true);

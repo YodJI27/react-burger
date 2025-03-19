@@ -33,7 +33,7 @@ export const createOrder = createAsyncThunk<OrderResponse, OrderData, { rejectVa
                     'Content-Type': 'application/json;charset=utf-8',
                     Authorization: 'Bearer ' + localStorage.getItem('accessToken')
                 },
-                body: JSON.stringify({ ingredients: orderData }),
+                body: JSON.stringify(orderData),
             });
 
             const data: OrderResponse = await checkResponse(response);

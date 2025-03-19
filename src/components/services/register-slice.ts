@@ -3,14 +3,12 @@ import { BASE_URL, checkResponse } from '../../../utils/burgerApi';
 
 const URL_FOR_REGISTER_USER = BASE_URL + "/auth/register";
 
-// Тип для данных регистрации пользователя
 interface RegisterUserData {
     email: string;
     password: string;
     name: string;
 }
 
-// Тип для ответа от API при успешной регистрации
 interface RegisterUserResponse {
     success: boolean;
     user: {
@@ -19,10 +17,9 @@ interface RegisterUserResponse {
     };
     accessToken: string;
     refreshToken: string;
-    message?: string; // Опциональное поле, если API возвращает сообщение
+    message?: string;
 }
 
-// Тип для состояния
 interface RegisterUserState {
     email: string;
     name: string;
@@ -30,10 +27,9 @@ interface RegisterUserState {
     refreshToken: string;
     loading: boolean;
     error: boolean;
-    message?: string; // Опциональное поле для сообщения
+    message?: string;
 }
 
-// Начальное состояние
 const initialState: RegisterUserState = {
     email: '',
     name: '',
@@ -41,9 +37,9 @@ const initialState: RegisterUserState = {
     refreshToken: '',
     loading: false,
     error: false,
+    message: ''
 };
 
-// Асинхронный запрос для регистрации пользователя
 export const registerUser = createAsyncThunk<RegisterUserResponse, RegisterUserData, { rejectValue: string }>(
     'regUs/registerUser',
     async (value, { rejectWithValue }) => {
