@@ -1,6 +1,6 @@
 
 
-.burgerContainer {
+.burgerContainerDrop {
     display: flex;
     flex-direction: column;
     height: calc(92vh - 140px);

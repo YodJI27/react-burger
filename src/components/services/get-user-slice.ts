@@ -1,22 +1,20 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BASE_URL, checkResponse } from '../../../utils/burgerApi';
+import { AppDispatch } from "../../main";
 
 const URL_FOR_GET_USER = BASE_URL + "/auth/user";
 
-// Тип для данных пользователя
 interface UserData {
     email: string;
     name: string;
 }
 
-// Тип для ответа от API
 interface AuthResponse {
     success: boolean;
     user: UserData;
-    message?: string; // Опциональное поле, если API возвращает сообщение об ошибке
+    message?: string; 
 }
 
-// Тип для состояния
 interface UserState {
     email: string;
     name: string;
@@ -25,7 +23,6 @@ interface UserState {
     error: boolean;
 }
 
-// Начальное состояние
 const initialState: UserState = {
     email: '',
     name: '',
@@ -34,12 +31,16 @@ const initialState: UserState = {
     error: false,
 };
 
-// Проверка авторизации пользователя
 export const checkUserAuth = (): boolean => {
-    return !!localStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken');
+    
+    if(!token) {
+        return false;
+    }
+
+    return true;
 };
 
-// Асинхронный запрос для получения данных пользователя
 export const authUser = createAsyncThunk<AuthResponse, void, { rejectValue: string }>(
     'authUs/authUser',
     async (_, { rejectWithValue }) => {
@@ -59,8 +60,6 @@ export const authUser = createAsyncThunk<AuthResponse, void, { rejectValue: stri
         }
     }
 );
-
-// Создание среза
 const getUserSlice = createSlice({
     name: 'getUser',
     initialState,
