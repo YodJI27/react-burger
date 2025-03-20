@@ -25,12 +25,11 @@ const BurgerConstructor = () => {
     const constructor = useAppSelector(store => store.constructorSlice.constructor);
     const priceIngTotal = useAppSelector(store => store.ingredientsSlice.priceIngTotal);
     const priceBunTotal = useAppSelector(store => store.ingredientsSlice.priceBunTotal);
+    const {userAccess} = useAppSelector(store => store.loginUserSlice);
 
     const dispatch = useAppDispatch();
 
     const handleOpenModal = () => {
-
-        const userAccess = checkUserAuth();
 
         if(!userAccess) {
             navigate('/login');
@@ -72,7 +71,7 @@ const BurgerConstructor = () => {
 
 
     return (
-        <section className={classNames(styles.burgerContainer, 'pt-25 pl-4 pr-4 pb-10')} ref={dropTarget}>
+        <section className={classNames(styles.burgerContainerDrop, 'pt-25 pl-4 pr-4 pb-10')} ref={dropTarget}>
             {bun ? <div className="pl-8">
                 <ConstructorElement
                     type="top"

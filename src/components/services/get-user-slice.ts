@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BASE_URL, checkResponse } from '../../../utils/burgerApi';
+import { AppDispatch } from "../../main";
 
 const URL_FOR_GET_USER = BASE_URL + "/auth/user";
 
@@ -31,7 +32,13 @@ const initialState: UserState = {
 };
 
 export const checkUserAuth = (): boolean => {
-    return !!localStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken');
+    
+    if(!token) {
+        return false;
+    }
+
+    return true;
 };
 
 export const authUser = createAsyncThunk<AuthResponse, void, { rejectValue: string }>(

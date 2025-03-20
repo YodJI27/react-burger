@@ -17,8 +17,8 @@ describe('создание заказа', function () {
   });
 
   it('перетаскивание ингредиента', function () {
-      cy.get('[class^=_cardBurger_4dyv5_5]').first().as('ingredient');
-      cy.get('[class^=_burgerContainer_1njsa_5]').first().as('constructor');
+      cy.get('[class^=_cardBurger_]').first().as('ingredient');
+      cy.get('[class^=_burgerContainerDrop_]').first().as('constructor');
 
 
       cy.get('@ingredient').trigger('dragstart');
@@ -34,9 +34,6 @@ describe('создание заказа', function () {
       cy.get('input[type=password]').type('admin62');
       cy.get('button').contains('Войти').click();
       cy.get('button').contains('Оформить заказ').click();
-      cy.get('[class^=_modalContainer_hinwo_5]').first().should('contain', 71222);
+      cy.get('[class^=_modalContainer_]').first().should('contain', 71222);
   });
-
-
-
 }); 
